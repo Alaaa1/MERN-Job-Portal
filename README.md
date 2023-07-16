@@ -17,4 +17,4 @@ PORT=5000</pre>
 - [ ] User Login/Signup
 - [ ] User Can save favourite jobs
 - [ ] Different User Roles
-- [ ] Job keyword and category category search
+- [x] Job keyword and category category search
