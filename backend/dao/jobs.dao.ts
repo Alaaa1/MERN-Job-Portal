@@ -1,16 +1,8 @@
 import { ObjectId } from "mongodb";
+import { AddJob, NewJob } from "../types";
 let jobs;
 
-interface AddJob {
-    name: string;
-    datePosted: Date;
-    company: string;
-    category: string;
-}
 
-interface NewJob extends AddJob {
-    _id: ObjectId
-}
 
 interface EditJob {
     name: string;
@@ -36,8 +28,6 @@ export default class JobsDAO {
         if (filters) {
             if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }
-            } else if ("category" in filters) {
-                query = { $text: { $search: filters["category"] } }
             }
         }
         let cursor;

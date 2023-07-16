@@ -1,31 +1,39 @@
+import { Request, Response, NextFunction, RequestHandler } from "express";
 import JobsDAO from "../../dao/jobs.dao";
+import { AddJob } from "../../types";
 
 interface Filters {
     name?: string;
     category?: string;
 }
 
+interface Result {
+    jobsList: Array<object>;
+    totalNumJobs: number;
+}
 
+interface APIResponse {
+    jobs: Array<object>;
+    total_results: number;
+}
 export default class JobsController {
-    static async apiGetJobs(req, res, next) {
+    static async apiGetJobs(req: Request, res: Response, next: NextFunction): Promise<void> {
         let filters: Filters = {};
         console.log("Got called");
         if (req.query.name) {
-            filters.name = req.query.name;
-        } else if (req.query.category) {
-            filters.category = req.query.category;
+            filters.name = req.query.name as string; //todo use RequestHandler instead of cast as string
         }
-        const { jobsList, totalNumJobs } = await JobsDAO.getJobs({ filters });
-        let response = {
+        const { jobsList, totalNumJobs }: Result = await JobsDAO.getJobs({ filters });
+        let response: APIResponse = {
             jobs: jobsList,
             total_results: totalNumJobs
         };
         res.json(response);
     }
 
-    static async apiPostJob(req, res, next) {
+    static async apiPostJob(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const newJob = {
+            const newJob: AddJob = {
                 name: req.body.name,
                 datePosted: new Date(),
                 company: req.body.company,
