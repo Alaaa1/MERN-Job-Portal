@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
@@ -10,17 +10,17 @@ export default function EditJob() {
     const [company, setCompany] = useState("");
     const [category, setCategory] = useState("");
 
-    function handleNameChange(event: any) {
+    function handleNameChange(event: any): void {
         setJob(event.target.value);
     }
-    function handleCompanyChange(event: any) {
+    function handleCompanyChange(event: any): void {
         setCompany(event.target.value);
     }
-    function handleCategoryChange(event: any) {
+    function handleCategoryChange(event: any): void {
         setCategory(event.target.value);
     }
 
-    function saveJob() {
+    function saveJob(): void {
         let data = {
             _id: location.id,
             name: job,
@@ -38,15 +38,15 @@ export default function EditJob() {
 
     return (
         <Form onSubmit={saveJob}>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="jobName">
                 <Form.Label>Job Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Job Name" onChange={handleNameChange} />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="companyName">
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Company Name" onChange={handleCompanyChange} />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="categoryName">
                 <Form.Label>Category Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Category Name" onChange={handleCategoryChange} />
             </Form.Group>
