@@ -9,6 +9,7 @@ interface Filters {
 export default class JobsController {
     static async apiGetJobs(req, res, next) {
         let filters: Filters = {};
+        console.log("Got called");
         if (req.query.name) {
             filters.name = req.query.name;
         } else if (req.query.category) {

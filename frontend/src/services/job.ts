@@ -4,6 +4,9 @@ class JobDataService {
     getAll() {
         return http.get('');
     }
+    find(query: string) {
+        return http.get(`?name=${query}`);
+    }
     createJob(data: Object) {
         return http.post("", data);
     }

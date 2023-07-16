@@ -13,21 +13,6 @@ interface JobData {
 }
 
 export default function Job(props: JobData) {
-    const [jobs, setJobs] = useState<any[]>([]);
-
-    useEffect(() => {
-        retrieveJobs();
-    }, []);
-
-    function retrieveJobs() {
-        JobDataService.getAll().then(response => {
-            console.log(response.data);
-            setJobs(response.data.jobs);
-        }).catch(e => {
-            console.error(`Error while retrieving list of jobs ${e}`)
-        });
-    }
-
     return (
         <div>
             <Card style={{ width: '18rem' }}>
