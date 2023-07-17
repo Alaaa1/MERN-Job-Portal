@@ -64,8 +64,8 @@ export default function Jobs() {
 
             {(category) ?
                 (jobs.filter(job => job.category === category).map(job =>
-                    <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
-                (jobs.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                    <Job key={job._id} stateChanger={setJobs} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
+                (jobs.map(job => <Job key={job._id} stateChanger={setJobs} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
         </div>
     )
 }

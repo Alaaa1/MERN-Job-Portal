@@ -13,6 +13,9 @@ class JobDataService {
     editJob(data: object) {
         return http.put("", data)
     }
+    deleteJob(id: string) {
+        return http.delete("", { data: { _id: id } });
+    }
 };
 
 export default new JobDataService();
