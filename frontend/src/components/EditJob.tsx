@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Location = {
     id: string;
@@ -13,9 +13,10 @@ type Location = {
 
 export default function EditJob() {
     const location: Location = useLocation().state;
-    const [job, setJob] = useState("");
-    const [company, setCompany] = useState("");
-    const [category, setCategory] = useState("");
+    const navigate = useNavigate();
+    const [job, setJob] = useState(location.name);
+    const [company, setCompany] = useState(location.company);
+    const [category, setCategory] = useState(location.category);
 
     function handleNameChange(event: any): void {
         setJob(event.target.value);
@@ -27,7 +28,8 @@ export default function EditJob() {
         setCategory(event.target.value);
     }
 
-    function saveJob(): void {
+    function saveJob(e: any): void {
+        e.preventDefault();
         let data = {
             _id: location.id,
             name: job,
@@ -37,9 +39,9 @@ export default function EditJob() {
         try {
             JobDataService.editJob(data).then(response => {
                 console.log(response.data);
-            })
+            }).then(() => navigate("/"));
         } catch (e) {
-            console.log(`Unable to post a new job ${e}`);
+            console.log(`Unable to edit job ${e}`);
         }
     }
 

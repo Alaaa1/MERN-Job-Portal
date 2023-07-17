@@ -24,7 +24,6 @@ export default class JobsDAO {
 
     static async getJobs({ filters = null } = {}) {
         let query: Object;
-        console.log(filters)
         if (filters) {
             if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }

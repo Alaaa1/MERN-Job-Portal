@@ -19,7 +19,6 @@ interface APIResponse {
 export default class JobsController {
     static async apiGetJobs(req: Request, res: Response, next: NextFunction): Promise<void> {
         let filters: Filters = {};
-        console.log("Got called");
         if (req.query.name) {
             filters.name = req.query.name as string; //todo use RequestHandler instead of cast as string
         }
