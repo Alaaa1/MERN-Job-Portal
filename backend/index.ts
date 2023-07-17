@@ -6,14 +6,12 @@ import UsersDAO from "./dao/users.dao";
 
 dotenv.config();
 
-const MongoClient = mongodb.MongoClient;
+const MongoClient: mongodb.MongoClient = new mongodb.MongoClient(process.env.JOBS_DB_URI);
 
 const port = process.env.PORT || 8000;
 
 
-MongoClient.connect(
-    process.env.JOBS_DB_URI
-)
+MongoClient.connect()
     .catch(err => {
         console.error(err.stack)
         process.exit(1)

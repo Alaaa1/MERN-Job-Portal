@@ -1,14 +1,6 @@
 import { ObjectId } from "mongodb";
-import { AddJob, NewJob } from "../types";
+import { AddJob, ApiGetResponse, DAOPostResponse, ErrorMessage, NewJob, EditJob, DAOEditResponse, Jobs } from "../types";
 let jobs;
-
-
-
-interface EditJob {
-    name: string;
-    company: string;
-    category: string;
-}
 
 export default class JobsDAO {
     static async injectDB(conn) {
@@ -22,8 +14,8 @@ export default class JobsDAO {
         }
     }
 
-    static async getJobs({ filters = null } = {}) {
-        let query: Object;
+    static async getJobs({ filters = null } = {}): Promise<ApiGetResponse> {
+        let query: object;
         if (filters) {
             if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }
@@ -34,20 +26,20 @@ export default class JobsDAO {
             cursor = await jobs.find(query);
         } catch (e) {
             console.error(`Unable to issue the find command ${e}`)
-            return { jobsList: [], totalNumJobs: 0 };
+            return { jobs: [], total_results: 0 };
         }
 
         try {
-            const jobsList = await cursor.toArray();
-            const totalNumJobs = jobsList.length;
-            return { jobsList, totalNumJobs };
+            const jobs = await cursor.toArray();
+            const total_results = jobs.length;
+            return { jobs, total_results };
         } catch (e) {
             console.error(`Unable to convert cursor to array or problem counting document ${e}`);
-            return { jobsList: [], totalNumJobs: 0 };
+            return { jobs: [], total_results: 0 };
         }
     }
 
-    static async addJob(newObject: AddJob): Promise<void | Object> {
+    static async addJob(newObject: AddJob): Promise<DAOPostResponse | ErrorMessage> {
         const newCollection: NewJob = {
             _id: new ObjectId(),
             name: newObject.name,
@@ -64,7 +56,7 @@ export default class JobsDAO {
         }
     }
 
-    static async editJob(jobId: ObjectId, jobInfo: EditJob): Promise<Object> {
+    static async editJob(jobId: ObjectId, jobInfo: EditJob): Promise<DAOEditResponse | ErrorMessage> {
         try {
             const result = await jobs.updateOne({ _id: new ObjectId(jobId) }, {
                 $set: {
