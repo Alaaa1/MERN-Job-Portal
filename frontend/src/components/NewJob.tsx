@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
+import { UserContext } from "./App";
 
 export default function NewJob() {
     const [job, setJob] = useState("");

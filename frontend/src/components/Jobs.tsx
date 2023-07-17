@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Job from "./Job";
 import Form from 'react-bootstrap/Form';
 
-type Jobs = {
+type JobsType = {
     _id: string;
     name: string;
     company: string;
@@ -13,7 +13,7 @@ type Jobs = {
 }
 
 export default function Jobs() {
-    const [jobs, setJobs] = useState<Jobs[]>([]);
+    const [jobs, setJobs] = useState<JobsType[]>([]);
     const [searchKeyWord, setSearchKeyWord] = useState("");
     const [category, setCategory] = useState<string>();
 

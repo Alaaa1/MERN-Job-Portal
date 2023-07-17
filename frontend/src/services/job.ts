@@ -1,6 +1,6 @@
 import http from "../http-common";
 
-class JobDataService {
+class DataService {
     getAll() {
         return http.get('');
     }
@@ -18,4 +18,5 @@ class JobDataService {
     }
 };
 
-export default new JobDataService();
+const JobDataService = new DataService();
+export default JobDataService;
