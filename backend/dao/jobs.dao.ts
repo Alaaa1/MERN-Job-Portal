@@ -71,4 +71,13 @@ export default class JobsDAO {
             return { error: e };
         }
     }
+
+    static async deleteJob(jobId: ObjectId): Promise<object> {
+        try {
+            const result: object = await jobs.deleteOne({ _id: new ObjectId(jobId) });
+            return result;
+        } catch (e) {
+            return { error: e }
+        }
+    }
 }

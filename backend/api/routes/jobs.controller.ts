@@ -49,4 +49,14 @@ export default class JobsController {
             res.status(500).json({ error: e.message })
         }
     }
+
+    static async apiDeleteJob(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            console.log(req.body._id);
+            await JobsDAO.deleteJob(req.body._id);
+            res.json({ status: "success" });
+        } catch (e) {
+            res.status(500).json({ error: e.message });
+        }
+    }
 }
