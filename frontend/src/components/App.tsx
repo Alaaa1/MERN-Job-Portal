@@ -1,7 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
 import Home from './Home';
-import Jobs from './Jobs';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NewJob from './NewJob';
 import Nav from 'react-bootstrap/Nav';

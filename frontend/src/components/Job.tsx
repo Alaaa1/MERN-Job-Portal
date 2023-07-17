@@ -3,8 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 
-interface JobData {
-    stateChanger: React.Dispatch<React.SetStateAction<any[]>>;
+type JobData = {
     id: string;
     name: string;
     company: string;

@@ -1,8 +1,8 @@
-import express from "express"
+import express, { Router } from "express"
 import JobsController from "./jobs.controller";
 import UsersController from "./users.controller";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.route("/").get(JobsController.apiGetJobs)
     .post(JobsController.apiPostJob)

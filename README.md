@@ -15,6 +15,7 @@ PORT=5000</pre>
 - [x] Users can add jobs to the database
 - [x] Users can update jobs already in the database
 - [x] Job keyword and category category search
+- [x] User can delete jobs
 - [ ] User Login/Signup
 - [ ] User Can save favourite jobs
 - [ ] Different User Roles

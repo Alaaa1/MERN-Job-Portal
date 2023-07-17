@@ -4,10 +4,18 @@ import Button from 'react-bootstrap/Button';
 import Job from "./Job";
 import Form from 'react-bootstrap/Form';
 
+type Jobs = {
+    _id: string;
+    name: string;
+    company: string;
+    category: string;
+    datePosted: Date;
+}
+
 export default function Jobs() {
-    const [jobs, setJobs] = useState<any[]>([]);
+    const [jobs, setJobs] = useState<Jobs[]>([]);
     const [searchKeyWord, setSearchKeyWord] = useState("");
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState<string>();
 
     useEffect(() => {
         retrieveJobs();
@@ -64,8 +72,8 @@ export default function Jobs() {
 
             {(category) ?
                 (jobs.filter(job => job.category === category).map(job =>
-                    <Job key={job._id} stateChanger={setJobs} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
-                (jobs.map(job => <Job key={job._id} stateChanger={setJobs} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                    <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
+                (jobs.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
         </div>
     )
 }

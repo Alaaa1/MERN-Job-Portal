@@ -3,9 +3,6 @@ import JobsDAO from "../../dao/jobs.dao";
 import { AddJob, DAOEditResponse, ApiGetResponse, DAOPostResponse, EditJob, ErrorMessage, Filters, DAOGetResult } from "../../types";
 import { ObjectId } from "mongodb";
 
-
-
-
 export default class JobsController {
     static async apiGetJobs(req: Request, res: Response, next: NextFunction): Promise<void> {
         let filters: Filters = {};
@@ -52,8 +49,8 @@ export default class JobsController {
 
     static async apiDeleteJob(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            console.log(req.body._id);
-            await JobsDAO.deleteJob(req.body._id);
+            const id: string = req.body._id;
+            await JobsDAO.deleteJob(id);
             res.json({ status: "success" });
         } catch (e) {
             res.status(500).json({ error: e.message });

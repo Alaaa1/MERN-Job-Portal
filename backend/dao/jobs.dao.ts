@@ -14,8 +14,9 @@ export default class JobsDAO {
         }
     }
 
-    static async getJobs({ filters = null } = {}): Promise<ApiGetResponse> {
+    static async getJobs({ filters = null }: { filters: {} } = { filters: null }): Promise<ApiGetResponse> {
         let query: object;
+        console.log(filters);
         if (filters) {
             if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }
@@ -30,8 +31,8 @@ export default class JobsDAO {
         }
 
         try {
-            const jobs = await cursor.toArray();
-            const total_results = jobs.length;
+            const jobs: object[] = await cursor.toArray();
+            const total_results: number = jobs.length;
             return { jobs, total_results };
         } catch (e) {
             console.error(`Unable to convert cursor to array or problem counting document ${e}`);
