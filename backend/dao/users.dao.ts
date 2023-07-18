@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import createSecretToken from "../utils/SecretToken";
 import bcrypt from "bcrypt";
 
-let users;
+export let users;
 
 export default class UsersDAO {
     static async injectDB(conn) {
@@ -50,6 +50,17 @@ export default class UsersDAO {
             }
             const token = createSecretToken(user._id);
             return { token: token, user: user };
+        } catch (e) {
+            console.error(`Unable to login user ${e}`);
+            return { error: e };
+        }
+    }
+
+    static async findUserById(id: string) {
+        try {
+            const user = await users.findOne({ _id: new ObjectId(id) });
+            console.log("doa finduserbyid", user);
+            return user;
         } catch (e) {
             console.error(`Unable to login user ${e}`);
             return { error: e };
