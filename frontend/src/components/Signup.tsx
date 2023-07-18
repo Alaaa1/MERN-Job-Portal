@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import JobDataService from '../services/job';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -17,25 +18,27 @@ export default function Signup() {
             [name]: value,
         });
     };
+
+    function handleSignupUser(data: object) {
+        try {
+            JobDataService.signupUser(data).then(response => console.log(response));
+        } catch (e) {
+            console.error(`Can't sign up user ${e}`);
+        }
+    }
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const { data } = await axios.post(
-                "http://localhost:4000/signup",
-                {
-                    ...inputValue,
-                },
-                { withCredentials: true }
-            );
-            const { success, message } = data;
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    navigate("/");
-                }, 1000);
-            } else {
-                handleError(message);
-            }
+            handleSignupUser({ ...inputValue });
+            // const { success, message } = data;
+            // if (success) {
+            //     handleSuccess(message);
+            //     setTimeout(() => {
+            //         navigate("/");
+            //     }, 1000);
+            // } else {
+            //     handleError(message);
+            // }
         } catch (error) {
             console.log(error);
         }
