@@ -17,7 +17,7 @@ class DataService {
         return http.delete("", { data: { _id: id } });
     }
     signupUser(data: object) {
-        return http.post("signup", data);
+        return http.post("signup", data, { withCredentials: true });
     }
 };
 
