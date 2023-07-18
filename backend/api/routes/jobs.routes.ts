@@ -6,7 +6,7 @@ import { userVerification, userLogout } from "../../middlewares/AuthMiddleware";
 const router: Router = express.Router();
 
 router.route("/").get(JobsController.apiGetJobs)
-    .post(userVerification)
+    .post(JobsController.apiPostJob)
     .put(JobsController.apiEditJob)
     .delete(JobsController.apiDeleteJob)
 
