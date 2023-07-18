@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NewJob from './NewJob';
 import Nav from 'react-bootstrap/Nav';
 import EditJob from './EditJob';
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
+import Login from './Login';
+import Signup from './Signup';
 
 export const UserContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(null);
   return (
     <Router>
       <Nav
@@ -24,6 +25,8 @@ function App() {
       <UserContext.Provider value={null}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/newJob" element={<NewJob />} />
           <Route path="/editJob/:id" element={<EditJob />} />
         </Routes>

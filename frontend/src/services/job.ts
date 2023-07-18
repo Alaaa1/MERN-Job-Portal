@@ -16,6 +16,9 @@ class DataService {
     deleteJob(id: string) {
         return http.delete("", { data: { _id: id } });
     }
+    signupUser(data: object) {
+        return http.post("signup", data);
+    }
 };
 
 const JobDataService = new DataService();
