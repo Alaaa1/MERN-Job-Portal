@@ -4,8 +4,12 @@ import UsersDAO from "../dao/users.dao";
 
 dotenv.config();
 
+export function userLogout(req, res) {
+    res.clearCookie("token");
+    res.end();
+}
 
-export default function userVerification(req, res) {
+export function userVerification(req, res) {
     const token = req.cookies.token;
     if (!token) {
         return res.json({ status: false });
