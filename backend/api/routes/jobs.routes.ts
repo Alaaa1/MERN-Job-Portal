@@ -1,4 +1,4 @@
-import express, { Router } from "express"
+import express, { Router } from "express";
 import JobsController from "./jobs.controller";
 import UsersController from "./users.controller";
 
@@ -9,5 +9,6 @@ router.route("/").get(JobsController.apiGetJobs)
     .put(JobsController.apiEditJob)
     .delete(JobsController.apiDeleteJob)
 
-router.route("/login").get(UsersController.apiGetUser)
+router.route("/login").post(UsersController.apiLoginUser);
+router.route("/signup").post(UsersController.apiSignupUser);
 export default router;
