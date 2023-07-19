@@ -1,16 +1,17 @@
 import express, { Router } from "express";
 import JobsController from "./jobs.controller";
 import UsersController from "./users.controller";
-import { userVerification, userLogout } from "../../middlewares/AuthMiddleware";
+import UserAuthentication from "../../middlewares/AuthMiddleware";
 
 const router: Router = express.Router();
 
 router.route("/").get(JobsController.apiGetJobs)
-    .post(userVerification)
+    .post(UserAuthentication.userVerification)
     .put(JobsController.apiEditJob)
-    .delete(JobsController.apiDeleteJob)
+    .delete(JobsController.apiDeleteJob);
+
+router.route("/newjob").post(JobsController.apiPostJob)
 
 router.route("/login").post(UsersController.apiLoginUser);
 router.route("/signup").post(UsersController.apiSignupUser);
-router.route("/logout").post(userLogout);
 export default router;

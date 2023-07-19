@@ -12,7 +12,7 @@ export default class UsersController {
                 withCredentials: true,
                 httpOnly: false,
             });
-            res.status(201).json({ message: "user signed up successfully", success: true });
+            res.status(201).json({ message: "user signed up successfully", success: true, user: result.user });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }

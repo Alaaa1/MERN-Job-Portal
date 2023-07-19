@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react"
+import { useContext } from "react"
 import Jobs from "./Jobs"
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UsersContext";
 
 
 export default function Home() {
-    const [user, setUser] = useState(null);
-    const [cookies, removeCookies] = useCookies<string>([]);
-    const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
 
-    useEffect(() => {
-        const verifyCookies = async () => {
-            console.log("cookies", cookies);
-            if (!cookies.token) {
-                navigate("/login");
-            }
-        }
-        verifyCookies();
-    }, [cookies, navigate]);
     return (
         <div>
+            {user ? (<h1>Welcome {user}</h1>) : (<h1>Welcome guest!</h1>)}
             <Jobs />
         </div>
     );

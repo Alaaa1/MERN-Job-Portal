@@ -1,82 +1,75 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import JobDataService from '../services/job';
+import { UserContext } from './UsersContext';
 
 export default function Signup() {
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
-    const [inputValue, setInputValue] = useState({
-        email: "",
-        password: "",
-        username: "",
-    });
-    const { email, password, username } = inputValue;
-    const handleOnChange = (e: any) => {
-        const { name, value } = e.target;
-        setInputValue({
-            ...inputValue,
-            [name]: value,
-        });
-    };
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("");
 
-    function handleSignupUser(data: object) {
+    function handleNameChange(e: any) {
+        setUsername(e.target.value)
+    }
+    function handleEmailChange(e: any) {
+        setEmail(e.target.value)
+    }
+    function handlePasswordChange(e: any) {
+        setPassword(e.target.value)
+    }
+    function handleRoleChange(e: any) {
+        setRole(e.target.value)
+    }
+
+    async function handleSignupUser(data: object) {
         try {
-            JobDataService.signupUser(data).then(response => console.log(response));
+            return await JobDataService.signupUser(data);
         } catch (e) {
             console.error(`Can't sign up user ${e}`);
         }
     }
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            handleSignupUser({ ...inputValue });
-            // const { success, message } = data;
-            // if (success) {
-            //     handleSuccess(message);
-            //     setTimeout(() => {
-            //         navigate("/");
-            //     }, 1000);
-            // } else {
-            //     handleError(message);
-            // }
+            console.log(username, email, password, role)
+            const signupResponse: any = await handleSignupUser({ username, email, password, role });
+            console.log(signupResponse);
+            if (signupResponse.data.success) {
+                console.log(signupResponse.data.message);
+                setUser(signupResponse.data.user.username);
+                navigate("/");
+            }
         } catch (error) {
             console.log(error);
         }
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-            username: "",
-        });
     }
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" >
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="username" />
+                <Form.Control type="text" placeholder="username" value={username} onChange={handleNameChange} />
             </Form.Group>
 
-            <Form.Select aria-label="Pick your role">
+            <Form.Select aria-label="Pick your role" onChange={handleRoleChange} value={role}>
                 <option>Pick your Role</option>
-                <option value="1">Job Seeker</option>
-                <option value="2">Job Creator</option>
+                <option value="seeker">Job Seeker</option>
+                <option value="creator">Job Creator</option>
             </Form.Select>
 
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" >
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
+                <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" >
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+
             <Button variant="primary" type="submit">
                 Submit
             </Button>
