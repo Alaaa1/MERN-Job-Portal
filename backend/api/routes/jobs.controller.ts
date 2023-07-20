@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import JobsDAO from "../../dao/jobs.dao";
-import { IDAOEditJob, ApiGetResponse, INewJobInfo, ErrorMessage, Filters, DAOGetResult, INewJob, IDAOAddJob } from "../../types";
+import { IDAOResponse, ApiGetResponse, INewJobInfo, ErrorMessage, Filters, DAOGetResult, INewJob } from "../../types";
 import { ObjectId } from "mongodb";
 
 export default class JobsController {
@@ -26,11 +26,12 @@ export default class JobsController {
                 category: req.body.category,
                 user_id: "11"
             }
-            const daoResponse: IDAOAddJob | ErrorMessage = await JobsDAO.addJob(newJob);
+            const daoResponse: IDAOResponse | ErrorMessage = await JobsDAO.addJob(newJob);
             if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                res.json({ status: "success", response: daoResponse });
+                res.json({ status: true, response: daoResponse });
+            } else {
+                res.json({ status: false, response: daoResponse });
             }
-            res.json({ status: "Failed", response: daoResponse });
         } catch (e) {
             res.status(500).json({ error: e.message })
         }
@@ -45,21 +46,28 @@ export default class JobsController {
                 company: req.body.company,
                 category: req.body.category
             }
-            const daoResponse: IDAOEditJob | ErrorMessage = await JobsDAO.editJob(jobId, newJobInfo, user_id);
+            const daoResponse: IDAOResponse | ErrorMessage = await JobsDAO.editJob(jobId, newJobInfo, user_id);
             if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                return res.json({ status: "success", response: daoResponse });
+                res.json({ status: true, response: daoResponse });
             }
-            res.json({ status: "Failed", response: daoResponse });
+            else {
+                res.json({ status: false, response: daoResponse });
+            }
         } catch (e) {
             res.status(500).json({ error: e.message })
         }
     }
 
-    static async apiDeleteJob(req: Request, res: Response, next: NextFunction): Promise<void> {
+    static async apiDeleteJob(req: Request, res: Response): Promise<void> {
         try {
-            const id: string = req.body._id;
-            await JobsDAO.deleteJob(id);
-            res.json({ status: "success" });
+            const jobId: ObjectId = req.body._id;
+            const user_id: string = req.body.user_id;
+            const daoResponse: IDAOResponse | ErrorMessage = await JobsDAO.deleteJob(jobId, user_id);
+            if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
+                res.json({ status: true, response: daoResponse });
+            } else {
+                res.json({ status: false, response: daoResponse });
+            }
         } catch (e) {
             res.status(500).json({ error: e.message });
         }

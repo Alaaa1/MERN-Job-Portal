@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { INewJob, ApiGetResponse, ErrorMessage, INewJobInfo, IDAOEditJob, IJob, IDAOAddJob } from "../types";
+import { INewJob, ApiGetResponse, ErrorMessage, INewJobInfo, IDAOResponse, IJob } from "../types";
 import Job from "../models/Job";
 let jobs;
 
@@ -41,12 +41,12 @@ export default class JobsDAO {
         }
     }
 
-    static async addJob(job: INewJob): Promise<IDAOAddJob | ErrorMessage> {
+    static async addJob(job: INewJob): Promise<IDAOResponse | ErrorMessage> {
         try {
             const newJob: IJob = await Job.create(
                 job
             );
-            const daoResponse: IDAOAddJob = { newJob, dbResponse: true }
+            const daoResponse: IDAOResponse = { job: newJob, dbResponse: true }
             return daoResponse;
         } catch (e) {
             console.error(`Jobs DAO error: Unable to insert a new job ${e}`);
@@ -55,11 +55,10 @@ export default class JobsDAO {
 
     }
 
-    static async editJob(jobId: ObjectId, newJobInfo: INewJobInfo, user_id: string): Promise<IDAOEditJob | ErrorMessage> {
+    static async editJob(jobId: ObjectId, newJobInfo: INewJobInfo, user_id: string): Promise<IDAOResponse | ErrorMessage> {
         try {
-            let job = await Job.findById(jobId);
-            console.log("found job", job);
-            let daoResponse;
+            let job = await Job.findById(jobId).exec();
+            let daoResponse: IDAOResponse;
             if (job.user_id === user_id) {
                 job.name = newJobInfo.name;
                 job.company = newJobInfo.company;
@@ -76,11 +75,19 @@ export default class JobsDAO {
         }
     }
 
-    static async deleteJob(jobId: string): Promise<object> {
+    static async deleteJob(jobId: ObjectId, user_id: string): Promise<IDAOResponse | ErrorMessage> {
         try {
-            const result: object = await jobs.deleteOne({ _id: new ObjectId(jobId) });
-            return result;
+            let job = await Job.findById(jobId).exec();
+            let daoResponse: IDAOResponse;
+            if (job.user_id === user_id) {
+                job = await Job.findOneAndDelete({ _id: jobId }).exec();
+                daoResponse = { job, dbResponse: true };
+                return daoResponse;
+            }
+            daoResponse = { job, dbResponse: false };
+            return daoResponse;
         } catch (e) {
+            console.error(`Unable to delete the document ${e}`);
             return { error: e }
         }
     }

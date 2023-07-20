@@ -49,12 +49,7 @@ export interface IControllerAddJob {
     status: string,
     dbResponse: boolean
 }
-
-export interface IDAOAddJob {
-    newJob: IJob,
-    dbResponse: boolean
-}
-export interface IDAOEditJob {
+export interface IDAOResponse {
     job: IJob;
     dbResponse: boolean;
 }
