@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { Document } from "mongoose";
 export interface AddJob {
     name: string;
     datePosted: Date;
@@ -51,4 +52,12 @@ export interface Jobs {
     datePoseted: Date;
     company: string;
     category: string;
+}
+
+export interface IJob extends Document {
+    name: string,
+    datePosted: Date,
+    company: string,
+    category: string,
+    user_id: string
 }
