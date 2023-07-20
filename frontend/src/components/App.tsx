@@ -1,38 +1,90 @@
 import Home from './Home';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import NewJob from './NewJob';
 import Nav from 'react-bootstrap/Nav';
 import EditJob from './EditJob';
-import { createContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Login from './Login';
 import Signup from './Signup';
-
-export const UserContext = createContext(null);
+import Logout from './Logout';
+import { UserContext } from './UsersContext';
+import { useCookies } from 'react-cookie';
+import JobDataService from '../services/job';
 
 function App() {
-  return (
-    <Router>
-      <Nav
-        activeKey="/"
-      >
-        <Nav.Item>
-          <Nav.Link href="/">Home</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/newJob">Add New Job</Nav.Link>
-        </Nav.Item>
-      </Nav>
-      <UserContext.Provider value={null}>
+  const { user, setUser } = useContext(UserContext);
+  const [cookies, setCookie, removeCookie] = useCookies<string>([]);
+  const navigate = useNavigate();
+
+  async function handleAuthenticateUser(data: object) {
+    return await JobDataService.authenticateUser(data);
+  }
+
+  useEffect(() => {
+    const verifyCookies = async () => {
+      console.log("cookies", cookies);
+      if (!cookies.token) {
+        setUser(null);
+      }
+      try {
+        const authenticateResponse: any = await handleAuthenticateUser({});
+        console.log("response", authenticateResponse);
+        if (authenticateResponse.data.status) {
+          console.log("user", user);
+          setUser(authenticateResponse.data.user);
+          return authenticateResponse.status;
+        }
+        console.log("user", user);
+        removeCookie("token");
+        setUser(null);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    verifyCookies();
+  }, [cookies, navigate, removeCookie, user, setUser]);
+  if (user) {
+    return (
+      <div>
+        <Nav
+          activeKey="/"
+        >
+          <Nav.Item>
+            <Nav.Link href="/">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/newJob">Add New Job</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/logout">Logout</Nav.Link>
+          </Nav.Item>
+        </Nav>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/newJob" element={<NewJob />} />
           <Route path="/editJob/:id" element={<EditJob />} />
+        </Routes></div>)
+  } else {
+    return (
+      <div>
+        <Nav>
+          <Nav.Item>
+            <Nav.Link href="/login">Login</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/signup">Signup</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/favourites">Favourites</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
-      </UserContext.Provider>
-    </Router>
-  );
+      </div>)
+  }
 }
 
 export default App;

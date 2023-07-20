@@ -30,7 +30,7 @@ export default class UsersDAO {
             await users.insertOne(user);
             console.log("id", user._id);
             const token = createSecretToken(user._id);
-            return { token };
+            return { token: token, user: user };
         } catch (e) {
             console.error(`Unable to signup user ${e}`);
             return { error: e };

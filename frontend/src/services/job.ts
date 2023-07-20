@@ -7,8 +7,11 @@ class DataService {
     find(query: string) {
         return http.get(`?name=${query}`);
     }
+    authenticateUser(data: object) {
+        return http.post("", data, { withCredentials: true });
+    }
     createJob(data: Object) {
-        return http.post("", data);
+        return http.post("/newJob", data);
     }
     editJob(data: object) {
         return http.put("", data)
@@ -18,6 +21,9 @@ class DataService {
     }
     signupUser(data: object) {
         return http.post("signup", data, { withCredentials: true });
+    }
+    loginUser(data: object) {
+        return http.post("login", data, { withCredentials: true });
     }
 };
 
