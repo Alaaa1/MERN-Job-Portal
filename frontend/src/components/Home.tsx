@@ -8,8 +8,7 @@ export default function Home() {
 
     return (
         <div>
-            {user ? (<h1>Welcome {user}</h1>) : (<h1>Welcome guest!</h1>)}
-            <Jobs />
+            {user ? (<div><h1>Welcome {user}</h1><Jobs /></div>) : (<h1>Welcome guest! Please Login</h1>)}
         </div>
     );
 }
