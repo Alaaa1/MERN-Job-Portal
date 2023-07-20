@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { IJob } from "../types";
 
-const jobSchema = new Schema({
+const jobSchema = new Schema<IJob>({
     name: {
         type: String,
         required: true

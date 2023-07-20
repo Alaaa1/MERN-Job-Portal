@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
-import { AddJob, ApiGetResponse, DAOPostResponse, ErrorMessage, NewJob, EditJob, DAOEditResponse, Jobs } from "../types";
+import { INewJob, ApiGetResponse, ErrorMessage, INewJobInfo, IDAOEditJob, IJob, IDAOAddJob } from "../types";
+import Job from "../models/Job";
 let jobs;
 
 export default class JobsDAO {
@@ -40,33 +41,35 @@ export default class JobsDAO {
         }
     }
 
-    static async addJob(newObject: AddJob): Promise<DAOPostResponse | ErrorMessage> {
-        const newCollection: NewJob = {
-            _id: new ObjectId(),
-            name: newObject.name,
-            datePosted: newObject.datePosted,
-            company: newObject.company,
-            category: newObject.category
-        };
+    static async addJob(job: INewJob): Promise<IDAOAddJob | ErrorMessage> {
         try {
-            const result = await jobs.insertOne(newCollection);
-            return result;
+            const newJob: IJob = await Job.create(
+                job
+            );
+            const daoResponse: IDAOAddJob = { newJob, dbResponse: true }
+            return daoResponse;
         } catch (e) {
-            console.error(`Unable to issue the insert command ${e}`);
+            console.error(`Jobs DAO error: Unable to insert a new job ${e}`);
             return { error: e };
         }
+
     }
 
-    static async editJob(jobId: ObjectId, jobInfo: EditJob): Promise<DAOEditResponse | ErrorMessage> {
+    static async editJob(jobId: ObjectId, newJobInfo: INewJobInfo, user_id: string): Promise<IDAOEditJob | ErrorMessage> {
         try {
-            const result = await jobs.updateOne({ _id: new ObjectId(jobId) }, {
-                $set: {
-                    name: jobInfo.name,
-                    company: jobInfo.company,
-                    category: jobInfo.category
-                },
-            });
-            return result;
+            let job = await Job.findById(jobId);
+            console.log("found job", job);
+            let daoResponse;
+            if (job.user_id === user_id) {
+                job.name = newJobInfo.name;
+                job.company = newJobInfo.company;
+                job.category = newJobInfo.category;
+                await job.save();
+                daoResponse = { job, dbResponse: true }
+                return daoResponse;
+            }
+            daoResponse = { job, dbResponse: false }
+            return daoResponse;
         } catch (e) {
             console.error(`Unable to edit the document ${e}`);
             return { error: e };

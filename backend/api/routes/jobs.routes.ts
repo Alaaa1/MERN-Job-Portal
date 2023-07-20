@@ -10,7 +10,7 @@ router.route("/").get(JobsController.apiGetJobs)
     .put(JobsController.apiEditJob)
     .delete(JobsController.apiDeleteJob);
 
-router.route("/newjob").post(JobsController.apiPostJob)
+router.route("/newJob").post(JobsController.apiPostJob)
 
 router.route("/login").post(UsersController.apiLoginUser);
 router.route("/signup").post(UsersController.apiSignupUser);
