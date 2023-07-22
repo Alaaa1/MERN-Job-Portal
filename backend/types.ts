@@ -6,7 +6,7 @@ export interface INewJob {
     datePosted: Date,
     company: string,
     category: string,
-    user_id: string
+    user_id: ObjectId
 }
 export interface INewJobInfo {
     name: string;
@@ -17,39 +17,39 @@ export interface INewJobInfo {
 export interface ErrorMessage {
     error: Error;
 }
-export interface ApiGetResponse {
-    jobs: Array<object>;
-    total_results: number;
-}
-
-export interface DAOPostResponse {
-    _id: ObjectId;
-    name: string;
-    datePoseted: Date;
-    company: string;
-    category: string;
-}
-export interface DAOGetResult {
-    jobs: Array<object>;
-    total_results: number;
-}
 export interface Filters {
     name?: string;
     category?: string;
 }
 export interface IJob extends Document {
-    name: string,
-    datePosted: Date,
-    company: string,
-    category: string,
-    user_id: string
+    name: string;
+    datePosted: Date;
+    company: string;
+    category: string;
+    user_id: ObjectId;
+}
+
+export interface IUser extends Document {
+    username: string;
+    hashedPassword: string;
+    email: string;
+    role: string;
+    jobs?: ObjectId[];
 }
 
 export interface IControllerAddJob {
-    status: string,
-    dbResponse: boolean
-}
-export interface IDAOResponse {
-    job: IJob;
+    status: string;
     dbResponse: boolean;
+}
+export interface IJobsDAOResponse {
+    job?: IJob;
+    jobs?: IJob[];
+    total_results?: number;
+    dbResponse: boolean;
+}
+
+export interface IUsersDAOResponse {
+    user?: IUser;
+    dbResponse: boolean;
+    token?;
 }

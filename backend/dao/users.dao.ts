@@ -1,66 +1,45 @@
 import { ObjectId } from "mongodb";
 import createSecretToken from "../utils/SecretToken";
 import bcrypt from "bcrypt";
-
-export let users;
-
+import User from "../models/User";
+import { ErrorMessage, IUser, IUsersDAOResponse } from "../types";
 export default class UsersDAO {
-    static async injectDB(conn) {
-        if (users) {
-            return
-        }
+    static async signupUser(username: string, email: string, password: string, role: string): Promise<IUsersDAOResponse | ErrorMessage> {
         try {
-            users = await conn.db(process.env.DB_NAME).collection("users");
-        } catch (e) {
-            console.error(`Unable to establish connection to users collection ${e}`);
-        }
-    }
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return { dbResponse: false };
+            }
 
-    static async signupUser(username: string, email: string, password: string, role: string) {
-        try {
-            const existingUser = await users.findOne({ email });
             const _id = new ObjectId();
-            const hashedPassword = await bcrypt.hash(password, 12);;
+            const hashedPassword = await bcrypt.hash(password, 12);
             const user = {
                 _id, username, email, hashedPassword, role
             }
-            if (existingUser) {
-                return false;
-            }
-            await users.insertOne(user);
-            console.log("id", user._id);
+            const newUser: IUser = await User.create(user);
+            console.log("new user", newUser);
             const token = createSecretToken(user._id);
-            return { token: token, user: user };
+            const daoResponse: IUsersDAOResponse = { user: newUser, dbResponse: true, token };
+            return daoResponse;
         } catch (e) {
             console.error(`Unable to signup user ${e}`);
             return { error: e };
         }
     }
 
-    static async loginUser(email: string, password: string) {
+    static async loginUser(email: string, password: string): Promise<IUsersDAOResponse | ErrorMessage> {
         try {
-            const user = await users.findOne({ email });
-            console.log("login user", user);
+            const user = await User.findOne({ email }).exec();
             if (!user) {
-                return false;
+                return { dbResponse: false };
             }
             const auth = await bcrypt.compare(password, user.hashedPassword)
             if (!auth) {
-                return false;
+                return { dbResponse: false };
             }
             const token = createSecretToken(user._id);
-            return { token: token, user: user };
-        } catch (e) {
-            console.error(`Unable to login user ${e}`);
-            return { error: e };
-        }
-    }
-
-    static async findUserById(id: string) {
-        try {
-            const user = await users.findOne({ _id: new ObjectId(id) });
-            console.log("doa finduserbyid", user);
-            return user;
+            const daoResponse: IUsersDAOResponse = { token, user, dbResponse: true };
+            return daoResponse;
         } catch (e) {
             console.error(`Unable to login user ${e}`);
             return { error: e };

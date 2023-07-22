@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import UsersDAO from "../dao/users.dao";
+import User from "../models/User";
+import { Request, Response } from "express";
 
 dotenv.config();
 
 export default class UserAuthentication {
-    static userVerification(req, res, next) {
+    static userVerification(req: Request, res: Response) {
         const token = req.cookies.token;
         if (!token) {
             console.log("no token");
@@ -17,7 +18,7 @@ export default class UserAuthentication {
                 return res.json({ status: false });
             } else {
                 console.log("middleware data", data);
-                const user = await UsersDAO.findUserById(data.id);
+                const user = await User.findById(data.id);
                 console.log(user);
                 if (user) {
                     res.json({ status: true, user: user.username })
