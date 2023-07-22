@@ -34,6 +34,7 @@ export default function Login() {
                 console.log("login response success", loginResponse.data);
                 setUser(loginResponse.data.user);
                 navigate("/");
+                window.location.reload();
             }
         } catch (error) {
             console.log(error);

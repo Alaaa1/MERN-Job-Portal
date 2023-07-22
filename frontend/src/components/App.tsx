@@ -1,5 +1,5 @@
 import Home from './Home';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import NewJob from './NewJob';
 import Nav from 'react-bootstrap/Nav';
 import EditJob from './EditJob';
@@ -14,7 +14,6 @@ import JobDataService from '../services/job';
 function App() {
   const { user, setUser } = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies<string>([]);
-  const navigate = useNavigate();
 
   async function handleAuthenticateUser(data: object) {
     return await JobDataService.authenticateUser(data);
@@ -41,7 +40,7 @@ function App() {
       }
     }
     verifyCookies();
-  }, [user, cookies.token, removeCookie, setUser]);
+  }, []);
   if (user) {
     return (
       <div>
