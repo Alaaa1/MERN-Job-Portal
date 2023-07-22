@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import JobsDAO from "../../dao/jobs.dao";
 import { IJobsDAOResponse, INewJobInfo, ErrorMessage, Filters, INewJob } from "../../types";
 import { ObjectId } from "mongodb";
@@ -40,7 +40,7 @@ export default class JobsController {
     static async apiEditJob(req: Request, res: Response): Promise<void> {
         try {
             const jobId: ObjectId = req.body._id;
-            const user_id: string = req.body.user_id;
+            const user_id: ObjectId = req.body.user_id;
             const newJobInfo: INewJobInfo = {
                 name: req.body.name,
                 company: req.body.company,
@@ -61,7 +61,7 @@ export default class JobsController {
     static async apiDeleteJob(req: Request, res: Response): Promise<void> {
         try {
             const jobId: ObjectId = req.body._id;
-            const user_id: string = req.body.user_id;
+            const user_id: ObjectId = req.body.user_id;
             const daoResponse: IJobsDAOResponse | ErrorMessage = await JobsDAO.deleteJob(jobId, user_id);
             if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
                 res.json({ status: true, response: daoResponse });

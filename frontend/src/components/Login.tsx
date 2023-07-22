@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap'
 import JobDataService from '../services/job';
@@ -25,15 +25,14 @@ export default function Login() {
         }
     }
 
-    async function handleSubmit(e: any) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         try {
-            console.log({ email, password })
             const loginResponse: any = await handleUserLogin({ email, password });
             console.log(loginResponse);
-            if (loginResponse.data.success) {
-                console.log("login response", loginResponse.data);
-                setUser(loginResponse.data.user.username);
+            if (loginResponse.data.status) {
+                console.log("login response success", loginResponse.data);
+                setUser(loginResponse.data.user);
                 navigate("/");
             }
         } catch (error) {

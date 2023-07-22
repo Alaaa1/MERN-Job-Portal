@@ -3,8 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UsersContext";
 
 export default function NewJob() {
+    const { user, setUser } = useContext(UserContext);
     const [job, setJob] = useState("");
     const [company, setCompany] = useState("");
     const [category, setCategory] = useState("");
@@ -20,20 +22,20 @@ export default function NewJob() {
         setCategory(event.target.value);
     }
 
-    function saveJob(e: React.FormEvent) {
+    function saveJob(e: React.FormEvent): void {
         e.preventDefault();
         let data = {
             name: job,
             company,
-            category
+            category,
+            user_id: user._id
         }
         try {
-            JobDataService.createJob(data).then(response => {
-                console.log(response.data);
+            JobDataService.createJob(data).then(() => {
                 navigate("/");
             })
         } catch (e) {
-            console.log(`Unable to post a new job ${e}`);
+            console.error(`Unable to post a new job ${e}`);
         }
     }
 

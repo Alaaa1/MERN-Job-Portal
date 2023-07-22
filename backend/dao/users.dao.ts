@@ -17,7 +17,6 @@ export default class UsersDAO {
                 _id, username, email, hashedPassword, role
             }
             const newUser: IUser = await User.create(user);
-            console.log("new user", newUser);
             const token = createSecretToken(user._id);
             const daoResponse: IUsersDAOResponse = { user: newUser, dbResponse: true, token };
             return daoResponse;

@@ -1,4 +1,4 @@
-import { Schema, SchemaTypes, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { IJob } from "../types";
 
 const jobSchema = new Schema<IJob>({

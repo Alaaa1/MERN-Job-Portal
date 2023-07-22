@@ -35,12 +35,9 @@ export default function Signup() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            console.log(username, email, password, role)
             const signupResponse: any = await handleSignupUser({ username, email, password, role });
-            console.log(signupResponse);
-            if (signupResponse.data.success) {
-                console.log(signupResponse.data.message);
-                setUser(signupResponse.data.user.username);
+            if (signupResponse.status) {
+                setUser(signupResponse.data.response.user.username);
                 navigate("/");
             }
         } catch (error) {

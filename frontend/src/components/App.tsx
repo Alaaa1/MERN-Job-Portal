@@ -22,33 +22,30 @@ function App() {
 
   useEffect(() => {
     const verifyCookies = async () => {
-      console.log("cookies", cookies);
       if (!cookies.token) {
         setUser(null);
-      }
-      try {
-        const authenticateResponse: any = await handleAuthenticateUser({});
-        console.log("response", authenticateResponse);
-        if (authenticateResponse.data.status) {
+      } else {
+        try {
+          const authenticateResponse: any = await handleAuthenticateUser({});
+          if (authenticateResponse.data.status) {
+            console.log("user", user);
+            setUser(authenticateResponse.data.user);
+            return authenticateResponse.data.status;
+          }
           console.log("user", user);
-          setUser(authenticateResponse.data.user);
-          return authenticateResponse.status;
+          removeCookie("token");
+          setUser(null);
+        } catch (error) {
+          console.log(error);
         }
-        console.log("user", user);
-        removeCookie("token");
-        setUser(null);
-      } catch (error) {
-        console.log(error);
       }
     }
     verifyCookies();
-  }, [cookies, navigate, removeCookie, user, setUser]);
+  }, [user, cookies.token, removeCookie, setUser]);
   if (user) {
     return (
       <div>
-        <Nav
-          activeKey="/"
-        >
+        <Nav>
           <Nav.Item>
             <Nav.Link href="/">Home</Nav.Link>
           </Nav.Item>

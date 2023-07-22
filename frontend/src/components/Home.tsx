@@ -8,7 +8,7 @@ export default function Home() {
 
     return (
         <div>
-            {user ? (<div><h1>Welcome {user}</h1><Jobs /></div>) : (<h1>Welcome guest! Please Login</h1>)}
+            {user ? (<div><h1>Welcome {user.username}</h1><Jobs /></div>) : (<h1>Welcome guest! Please Login</h1>)}
         </div>
     );
 }

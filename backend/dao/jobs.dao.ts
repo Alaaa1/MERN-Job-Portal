@@ -36,12 +36,11 @@ export default class JobsDAO {
 
     }
 
-    static async editJob(jobId: ObjectId, newJobInfo: INewJobInfo, user_id: string): Promise<IJobsDAOResponse | ErrorMessage> {
+    static async editJob(jobId: ObjectId, newJobInfo: INewJobInfo, user_id: ObjectId): Promise<IJobsDAOResponse | ErrorMessage> {
         try {
             let job = await Job.findById(jobId).exec();
             let daoResponse: IJobsDAOResponse;
-            const id = new ObjectId(user_id);
-            if (job.user_id === id) {
+            if (job.user_id == user_id) {
                 job.name = newJobInfo.name;
                 job.company = newJobInfo.company;
                 job.category = newJobInfo.category;
@@ -57,12 +56,11 @@ export default class JobsDAO {
         }
     }
 
-    static async deleteJob(jobId: ObjectId, user_id: string): Promise<IJobsDAOResponse | ErrorMessage> {
+    static async deleteJob(jobId: ObjectId, user_id: ObjectId): Promise<IJobsDAOResponse | ErrorMessage> {
         try {
             let job = await Job.findById(jobId).exec();
             let daoResponse: IJobsDAOResponse;
-            const id = new ObjectId(user_id);
-            if (job.user_id === id) {
+            if (job.user_id == user_id) {
                 job = await Job.findOneAndDelete({ _id: jobId }).exec();
                 daoResponse = { job, dbResponse: true };
                 return daoResponse;

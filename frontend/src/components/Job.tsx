@@ -2,6 +2,8 @@ import JobDataService from "../services/job";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
+import { UserContext } from "./UsersContext";
+import { useContext } from "react";
 
 type JobData = {
     id: string;
@@ -12,9 +14,10 @@ type JobData = {
 }
 
 export default function Job(props: JobData) {
+    const { user, setUser } = useContext(UserContext);
     function handleDelete() {
         try {
-            JobDataService.deleteJob(props.id).then(() => window.location.reload());
+            JobDataService.deleteJob(props.id, user._id).then(() => window.location.reload());
         } catch (e) {
             console.error(`Unable to issue the delete command ${e}`);
         }
@@ -25,7 +28,7 @@ export default function Job(props: JobData) {
                 <Card.Body>
                     <Card.Title>{props.name}</Card.Title>
                     <Card.Text>
-                        {props.name} requested by {props.company} in category {props.category}
+                        {props.name} requested by {props.company} in category {props.category} on {props.datePosted.toString()}
                     </Card.Text>
                     <Link to={"/editJob/" + props.id} state={props}><Button variant="primary">Edit</Button></Link>
                     <Button variant="secondary" onClick={handleDelete}>Delete</Button>

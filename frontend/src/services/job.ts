@@ -16,8 +16,8 @@ class DataService {
     editJob(data: object) {
         return http.put("", data)
     }
-    deleteJob(id: string) {
-        return http.delete("", { data: { _id: id } });
+    deleteJob(_id: string, user_id: string) {
+        return http.delete("", { data: { _id, user_id } });
     }
     signupUser(data: object) {
         return http.post("signup", data, { withCredentials: true });

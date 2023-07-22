@@ -30,8 +30,8 @@ export default function Jobs() {
         event.preventDefault();
         try {
             JobDataService.find(searchKeyWord).then(response => {
-                console.log(response.data);
-                setJobs(response.data.jobs);
+                console.log(response);
+                setJobs(response.data.response.jobs);
             });
         } catch (e) {
             console.error(`Unable to search ${e}`);
@@ -40,8 +40,8 @@ export default function Jobs() {
 
     function retrieveJobs() {
         JobDataService.getAll().then(response => {
-            console.log(response.data);
-            setJobs(response.data.jobs);
+            console.log(response);
+            setJobs(response.data.response.jobs);
         }).catch(e => {
             console.error(`Error while retrieving list of jobs ${e}`)
         });
@@ -73,7 +73,7 @@ export default function Jobs() {
             {(category) ?
                 (jobs.filter(job => job.category === category).map(job =>
                     <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
-                (jobs.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
         </div>
     )
 }

@@ -21,9 +21,11 @@ export default class UserAuthentication {
                 const user = await User.findById(data.id);
                 console.log(user);
                 if (user) {
-                    res.json({ status: true, user: user.username })
+                    res.json({ status: true, user })
                 }
-                else return res.json({ status: false })
+                else {
+                    return res.json({ status: false });
+                }
             }
         })
     }
