@@ -33,7 +33,6 @@ function App() {
           setUser(authenticateResponse.data.user);
           return authenticateResponse.data.status;
         }
-        console.log("removing user", user);
         removeCookie("token");
         setUser(null);
       } catch (error) {

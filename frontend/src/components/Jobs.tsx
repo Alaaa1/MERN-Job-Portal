@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import JobDataService from "../services/job";
 import Button from 'react-bootstrap/Button';
 import Job from "./Job";
 import Form from 'react-bootstrap/Form';
 import {
-    QueryClient,
-    QueryClientProvider,
     useQuery,
 } from '@tanstack/react-query'
 
@@ -37,7 +35,6 @@ export default function Jobs() {
         event.preventDefault();
         try {
             JobDataService.find(searchKeyWord).then(response => {
-                console.log(response);
                 setJobs(response.data.response.jobs);
             });
         } catch (e) {

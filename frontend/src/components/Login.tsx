@@ -22,7 +22,7 @@ export default function Login() {
         try {
             return await JobDataService.loginUser({ email, password });
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -32,7 +32,6 @@ export default function Login() {
             const loginResponse: any = await handleUserLogin({ email, password });
             if (loginResponse.data.status) {
                 setUser(loginResponse.data.response.user);
-                console.log(loginResponse);
                 navigate("/");
             }
         } catch (error) {

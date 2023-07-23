@@ -6,7 +6,6 @@ import User from "../models/User";
 export default class JobsDAO {
     static async getJobs({ filters = null }: { filters: {} } = { filters: null }): Promise<IJobsDAOResponse | ErrorMessage> {
         let query: object = filters;
-        console.log(filters);
         try {
             const jobs = await Job.find(query).exec();
             const total_results: number = jobs.length;
@@ -25,8 +24,6 @@ export default class JobsDAO {
             const jobs = usersDaoResponse.jobs;
             jobs.push(newJob._id);
             const user = await User.updateOne({ _id: newJob.user_id }, { jobs: jobs });
-            console.log("doa response", usersDaoResponse);
-            console.log("user", user);
             const daoResponse: IJobsDAOResponse = { job: newJob, dbResponse: true };
             return daoResponse;
         } catch (e) {
@@ -62,6 +59,12 @@ export default class JobsDAO {
             let daoResponse: IJobsDAOResponse;
             if (job.user_id == user_id) {
                 job = await Job.findOneAndDelete({ _id: jobId }).exec();
+                let user = await User.findById(user_id).exec();
+                const index = user.jobs.indexOf(jobId);
+                if (index > -1) {
+                    user.jobs.splice(index, 1);
+                    await User.updateOne({ _id: user_id }, { jobs: user.jobs }).exec();
+                }
                 daoResponse = { job, dbResponse: true };
                 return daoResponse;
             }
