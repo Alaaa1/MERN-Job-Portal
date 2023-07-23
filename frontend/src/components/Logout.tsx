@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { UserContext } from "./UsersContext";
+import { UserContext } from "../contexts/UsersContext";
 
 export default function Logout() {
     const [cookies, setCookie, removeCookie] = useCookies<string>([]);

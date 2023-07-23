@@ -3,6 +3,11 @@ import JobDataService from "../services/job";
 import Button from 'react-bootstrap/Button';
 import Job from "./Job";
 import Form from 'react-bootstrap/Form';
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
+} from '@tanstack/react-query'
 
 type JobsType = {
     _id: string;
@@ -13,14 +18,16 @@ type JobsType = {
 }
 
 export default function Jobs() {
+    const { isLoading, isError, data, error } = useQuery({
+        queryKey: ["jobs"],
+        queryFn: () => JobDataService.getAll().then((res) => {
+            setJobs(res.data.response.jobs);
+            return res;
+        }).then(res => res)
+    });
     const [jobs, setJobs] = useState<JobsType[]>([]);
     const [searchKeyWord, setSearchKeyWord] = useState("");
     const [category, setCategory] = useState<string>();
-
-    useEffect(() => {
-        retrieveJobs();
-        console.log('i fire once');
-    }, []);
 
     function handleChange(event: any) {
         setSearchKeyWord(event.target.value);
@@ -38,17 +45,24 @@ export default function Jobs() {
         }
     }
 
-    function retrieveJobs() {
-        JobDataService.getAll().then(response => {
-            console.log(response);
-            setJobs(response.data.response.jobs);
-        }).catch(e => {
-            console.error(`Error while retrieving list of jobs ${e}`)
-        });
-    }
+    // function retrieveJobs() {
+    //     JobDataService.getAll().then(response => {
+    //         console.log(response);
+    //         setJobs(response.data.response.jobs);
+    //     }).catch(e => {
+    //         console.error(`Error while retrieving list of jobs ${e}`)
+    //     });
+    // }
 
     function handleFilterByCategory(e: any) {
         setCategory(e.target.value);
+    }
+
+    if (isLoading) {
+        return <span>Loading...</span>
+    }
+    if (isError) {
+        return <span>Error while retrieving data</span>
     }
 
     return (

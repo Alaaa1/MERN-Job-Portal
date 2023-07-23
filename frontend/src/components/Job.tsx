@@ -2,7 +2,7 @@ import JobDataService from "../services/job";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
-import { UserContext } from "./UsersContext";
+import { UserContext } from "../contexts/UsersContext";
 import { useContext } from "react";
 
 type JobData = {

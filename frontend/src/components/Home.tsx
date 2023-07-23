@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import Jobs from "./Jobs"
-import { UserContext } from "./UsersContext";
+import { UserContext } from "../contexts/UsersContext";
 
 
 export default function Home() {

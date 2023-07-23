@@ -2,13 +2,14 @@ import { FormEvent, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap'
 import JobDataService from '../services/job';
-import { UserContext } from './UsersContext';
+import { UserContext } from '../contexts/UsersContext';
 
 export default function Login() {
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
 
     function handleEmailChange(e: any) {
         setEmail(e.target.value)
@@ -29,15 +30,13 @@ export default function Login() {
         e.preventDefault();
         try {
             const loginResponse: any = await handleUserLogin({ email, password });
-            console.log(loginResponse);
             if (loginResponse.data.status) {
-                console.log("login response success", loginResponse.data);
-                setUser(loginResponse.data.user);
+                setUser(loginResponse.data.response.user);
+                console.log(loginResponse);
                 navigate("/");
-                window.location.reload();
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
     return (

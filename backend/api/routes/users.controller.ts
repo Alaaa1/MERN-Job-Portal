@@ -29,7 +29,6 @@ export default class UsersController {
                 if (!daoResponse) {
                     res.json({ status: false, message: "Invalid email or password" });
                 } else {
-                    console.log("token and user", daoResponse);
                     if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
                         res.cookie("token", daoResponse.token, {
                             httpOnly: false,

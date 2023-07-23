@@ -7,9 +7,12 @@ import { useContext, useEffect } from 'react';
 import Login from './Login';
 import Signup from './Signup';
 import Logout from './Logout';
-import { UserContext } from './UsersContext';
 import { useCookies } from 'react-cookie';
+import { UserContext } from '../contexts/UsersContext';
 import JobDataService from '../services/job';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -23,24 +26,23 @@ function App() {
     const verifyCookies = async () => {
       if (!cookies.token) {
         setUser(null);
-      } else {
-        try {
-          const authenticateResponse: any = await handleAuthenticateUser({});
-          if (authenticateResponse.data.status) {
-            console.log("user", user);
-            setUser(authenticateResponse.data.user);
-            return authenticateResponse.data.status;
-          }
-          console.log("user", user);
-          removeCookie("token");
-          setUser(null);
-        } catch (error) {
-          console.log(error);
+      }
+      try {
+        const authenticateResponse: any = await handleAuthenticateUser({});
+        if (authenticateResponse.data.status) {
+          setUser(authenticateResponse.data.user);
+          return authenticateResponse.data.status;
         }
+        console.log("removing user", user);
+        removeCookie("token");
+        setUser(null);
+      } catch (error) {
+        console.log(error);
       }
     }
     verifyCookies();
   }, []);
+
   if (user) {
     return (
       <div>
@@ -55,12 +57,15 @@ function App() {
             <Nav.Link href="/logout">Logout</Nav.Link>
           </Nav.Item>
         </Nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/newJob" element={<NewJob />} />
-          <Route path="/editJob/:id" element={<EditJob />} />
-        </Routes></div>)
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/newJob" element={<NewJob />} />
+            <Route path="/editJob/:id" element={<EditJob />} />
+          </Routes>
+        </QueryClientProvider>
+      </div>)
   } else {
     return (
       <div>

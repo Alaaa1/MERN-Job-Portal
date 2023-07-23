@@ -7,3 +7,7 @@ export type UserType = {
 export type UsersContextType = {
     user: UserType
 };
+
+export type UsersProviderType = {
+    children: React.ReactNode;
+};

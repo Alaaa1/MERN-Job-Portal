@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import JobDataService from '../services/job';
-import { UserContext } from './UsersContext';
+import { UserContext } from '../contexts/UsersContext';
 
 export default function Signup() {
     const { user, setUser } = useContext(UserContext);

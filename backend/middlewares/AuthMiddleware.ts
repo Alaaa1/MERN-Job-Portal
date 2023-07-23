@@ -17,9 +17,7 @@ export default class UserAuthentication {
                 console.log("error");
                 return res.json({ status: false });
             } else {
-                console.log("middleware data", data);
                 const user = await User.findById(data.id);
-                console.log(user);
                 if (user) {
                     res.json({ status: true, user })
                 }

@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserContext } from "./UsersContext";
+import { UserContext } from "../contexts/UsersContext";
 
 type Location = {
     id: string;
