@@ -45,15 +45,6 @@ export default function Jobs() {
         }
     }
 
-    // function retrieveJobs() {
-    //     JobDataService.getAll().then(response => {
-    //         console.log(response);
-    //         setJobs(response.data.response.jobs);
-    //     }).catch(e => {
-    //         console.error(`Error while retrieving list of jobs ${e}`)
-    //     });
-    // }
-
     function handleFilterByCategory(e: any) {
         setCategory(e.target.value);
     }
