@@ -1,8 +1,7 @@
 import { useState } from "react";
 import JobDataService from "../services/job";
-import Button from 'react-bootstrap/Button';
+import { Container, Button, Col, Form } from 'react-bootstrap';
 import Job from "./Job";
-import Form from 'react-bootstrap/Form';
 import {
     useQuery,
 } from '@tanstack/react-query'
@@ -54,28 +53,33 @@ export default function Jobs() {
     }
 
     return (
-        <div>
-            <Form.Select aria-label="Default select example" onChange={handleFilterByCategory}>
-                <option value="">Filter by category</option>
-                <option value="it">IT</option>
-                <option value="hr">HR</option>
-                <option value="finance">Finance</option>
-                <option value="accounting">Accounting</option>
-                <option value="education">Education</option>
-            </Form.Select>
+        <div className="Jobs">
+            <Container className="p-4">
+                <Col md="8">
+                    <Form.Select aria-label="Default select example" onChange={handleFilterByCategory}>
+                        <option value="">Filter by category</option>
+                        <option value="it">IT</option>
+                        <option value="hr">HR</option>
+                        <option value="finance">Finance</option>
+                        <option value="accounting">Accounting</option>
+                        <option value="education">Education</option>
+                    </Form.Select>
 
-            <Form onSubmit={handleSearch}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Search by keyword</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                </Form.Group>
-                <Button type="submit">Search</Button>
-            </Form>
-
-            {(category) ?
-                (jobs.filter(job => job.category === category).map(job =>
-                    <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
-                (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                    <Form onSubmit={handleSearch}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Search by keyword</Form.Label>
+                            <Form.Control type="text" onChange={handleChange} />
+                        </Form.Group>
+                        <Button type="submit">Search</Button>
+                    </Form>
+                    <div style={{ display: "flex", gap: "3em" }}>
+                        {(category) ?
+                            (jobs.filter(job => job.category === category).map(job =>
+                                <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
+                            (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                    </div>
+                </Col>
+            </Container>
         </div>
     )
 }

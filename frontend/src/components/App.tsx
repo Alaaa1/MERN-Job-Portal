@@ -1,7 +1,7 @@
 import Home from './Home';
 import { Routes, Route } from 'react-router-dom';
 import NewJob from './NewJob';
-import Nav from 'react-bootstrap/Nav';
+import { Nav } from 'react-bootstrap';
 import EditJob from './EditJob';
 import { useContext, useEffect } from 'react';
 import Login from './Login';

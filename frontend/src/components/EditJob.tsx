@@ -4,17 +4,11 @@ import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
-
-type Location = {
-    id: string;
-    name: string;
-    company: string;
-    category: string;
-}
+import { LocationType, saveJobType } from "../types/types.users";
 
 export default function EditJob() {
     const { user, setUser } = useContext(UserContext);
-    const location: Location = useLocation().state;
+    const location: LocationType = useLocation().state;
     const navigate = useNavigate();
     const [job, setJob] = useState(location.name);
     const [company, setCompany] = useState(location.company);
@@ -32,7 +26,7 @@ export default function EditJob() {
 
     function saveJob(e: FormEvent): void {
         e.preventDefault();
-        let data = {
+        let data: saveJobType = {
             _id: location.id,
             name: job,
             company,

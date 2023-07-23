@@ -1,6 +1,5 @@
 import JobDataService from "../services/job";
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import { Card, Button, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
 import { useContext } from "react";
@@ -23,7 +22,7 @@ export default function Job(props: JobData) {
         }
     }
     return (
-        <div>
+        <Col md="4">
             <Card style={{ width: '18rem' }}>
                 <Card.Body>
                     <Card.Title>{props.name}</Card.Title>
@@ -34,6 +33,6 @@ export default function Job(props: JobData) {
                     <Button variant="secondary" onClick={handleDelete}>Delete</Button>
                 </Card.Body>
             </Card>
-        </div>
+        </Col>
     )
 }

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
+import { saveJobType } from "../types/types.users";
 
 export default function NewJob() {
     const { user, setUser } = useContext(UserContext);
@@ -24,7 +25,7 @@ export default function NewJob() {
 
     function saveJob(e: React.FormEvent): void {
         e.preventDefault();
-        let data = {
+        let data: saveJobType = {
             name: job,
             company,
             category,
