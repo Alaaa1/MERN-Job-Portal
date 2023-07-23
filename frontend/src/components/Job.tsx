@@ -2,21 +2,28 @@ import JobDataService from "../services/job";
 import { Card, Button, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import { JobData } from "../types/types.users";
 
-type JobData = {
-    id: string;
-    name: string;
-    company: string;
-    category: string;
-    datePosted: Date;
-}
+
 
 export default function Job(props: JobData) {
     const { user, setUser } = useContext(UserContext);
+
+    const notify = (message: string) => toast(message);
+
     function handleDelete() {
         try {
-            JobDataService.deleteJob(props.id, user._id).then(() => window.location.reload());
+            JobDataService.deleteJob(props.id, user._id).then((res) => {
+                if (res.data.status) {
+                    props.handleChangingJobs(props.id)
+                    notify("Job Deleted successfully!")
+                }
+                else {
+                    notify("Sorry This user can't delete this job");
+                }
+            });
         } catch (e) {
             console.error(`Unable to issue the delete command ${e}`);
         }
@@ -31,6 +38,7 @@ export default function Job(props: JobData) {
                     </Card.Text>
                     <Link to={"/editJob/" + props.id} state={props}><Button variant="primary">Edit</Button></Link>
                     <Button variant="secondary" onClick={handleDelete}>Delete</Button>
+                    <ToastContainer />
                 </Card.Body>
             </Card>
         </Col>

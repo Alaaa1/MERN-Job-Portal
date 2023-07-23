@@ -5,14 +5,7 @@ import Job from "./Job";
 import {
     useQuery,
 } from '@tanstack/react-query'
-
-type JobsType = {
-    _id: string;
-    name: string;
-    company: string;
-    category: string;
-    datePosted: Date;
-}
+import { JobsType } from "../types/types.users";
 
 export default function Jobs() {
     const { isLoading, isError, data, error } = useQuery({
@@ -25,6 +18,10 @@ export default function Jobs() {
     const [jobs, setJobs] = useState<JobsType[]>([]);
     const [searchKeyWord, setSearchKeyWord] = useState("");
     const [category, setCategory] = useState<string>();
+
+    function handleChangingJobs(jobId: string): void {
+        setJobs(jobs.filter(job => job._id != jobId));
+    }
 
     function handleChange(event: any) {
         setSearchKeyWord(event.target.value);
@@ -75,8 +72,8 @@ export default function Jobs() {
                     <div style={{ display: "flex", gap: "3em" }}>
                         {(category) ?
                             (jobs.filter(job => job.category === category).map(job =>
-                                <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />)) :
-                            (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} />))}
+                                <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} handleChangingJobs={handleChangingJobs} />)) :
+                            (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} handleChangingJobs={handleChangingJobs} />))}
                     </div>
                 </Col>
             </Container>
