@@ -2,14 +2,14 @@ import JobDataService from "../services/job";
 import { Card, Button, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { JobData } from "../types/types.users";
 
 
 
 export default function Job(props: JobData) {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const notify = (message: string) => toast(message);
 

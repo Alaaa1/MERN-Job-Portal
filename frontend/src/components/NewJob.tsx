@@ -5,13 +5,21 @@ import JobDataService from "../services/job";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
 import { saveJobType } from "../types/types.users";
+import { useMutation } from "@tanstack/react-query";
 
 export default function NewJob() {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [job, setJob] = useState("");
     const [company, setCompany] = useState("");
     const [category, setCategory] = useState("");
     const navigate = useNavigate();
+    const mutation = useMutation({
+        mutationFn: async (newJob: saveJobType) => {
+            await JobDataService.createJob(newJob).then(() => {
+                navigate("/");
+            })
+        }
+    })
 
     function handleNameChange(event: any) {
         setJob(event.target.value);
@@ -32,9 +40,7 @@ export default function NewJob() {
             user_id: user._id
         }
         try {
-            JobDataService.createJob(data).then(() => {
-                navigate("/");
-            })
+            mutation.mutate(data);
         } catch (e) {
             console.error(`Unable to post a new job ${e}`);
         }
