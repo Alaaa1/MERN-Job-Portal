@@ -22,26 +22,16 @@ export type saveJobType = {
     user_id: string;
 }
 
-export type LocationType = {
-    id: string;
-    name: string;
-    company: string;
-    category: string;
-}
-
 export type JobsType = {
     _id: string;
     name: string;
     company: string;
     category: string;
     datePosted: Date;
+    user_id: string;
 }
 
-export type JobData = {
-    id: string;
-    name: string;
-    company: string;
-    category: string;
-    datePosted: Date;
+export type JobPropsType = {
+    job: JobsType;
     handleChangingJobs: (jobId: string) => void;
 }

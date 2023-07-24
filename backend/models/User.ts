@@ -10,7 +10,7 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: true
     },
-    hashedPassword: {
+    hashedPassword: {//todo separate into new schema
         type: String,
         required: true
     },

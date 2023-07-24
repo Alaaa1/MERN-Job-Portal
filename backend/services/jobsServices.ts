@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import JobsDAO from "../../dao/jobs.dao";
-import { IJobsDAOResponse, INewJobInfo, ErrorMessage, Filters, INewJob } from "../../types";
+import JobsDAO from "../dao/jobs.dao";
+import { IJobsDAOResponse, INewJobInfo, ErrorMessage, Filters, INewJob } from "../types";
 import { ObjectId } from "mongodb";
 
-export default class JobsController {
+export default class JobsService {
     static async apiGetJobs(req: Request, res: Response): Promise<void> {
         let filters: Filters = {};
         if (req.query.name) {

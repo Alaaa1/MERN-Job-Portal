@@ -41,6 +41,7 @@ export default class JobsDAO {
                 job.name = newJobInfo.name;
                 job.company = newJobInfo.company;
                 job.category = newJobInfo.category;
+                // job.set({ name: newJobInfo.name, })
                 await job.save();
                 daoResponse = { job, dbResponse: true }
                 return daoResponse;
@@ -57,7 +58,7 @@ export default class JobsDAO {
         try {
             let job = await Job.findById(jobId).exec();
             let daoResponse: IJobsDAOResponse;
-            if (job.user_id == user_id) {
+            if (job.user_id == user_id) {//todo move business to controller
                 job = await Job.findOneAndDelete({ _id: jobId }).exec();
                 let user = await User.findById(user_id).exec();
                 const index = user.jobs.indexOf(jobId);

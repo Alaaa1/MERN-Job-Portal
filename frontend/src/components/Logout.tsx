@@ -7,10 +7,13 @@ export default function Logout() {
     const [cookies, setCookie, removeCookie] = useCookies<string>([]);
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
+
+    async function delay() {
+        await new Promise((resolve) => setTimeout(() => resolve(''), 2000))
+    }
     useEffect(() => {
         removeCookie("token");
-        setUser(null);
-        navigate("/login");
+        delay().then(() => { setUser(null); navigate("/login") });
     }, [removeCookie, setUser, navigate]);
 
     return (

@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import UsersDAO from "../../dao/users.dao";
 
+//todo create user service, job service and move business logic to them
+//todo controllers are very light
+//todo DOA is usually created for custom queries
+
 export default class UsersController {
     static async apiSignupUser(req: Request, res: Response): Promise<void> {
         try {
@@ -12,7 +16,7 @@ export default class UsersController {
                 });
                 res.json({ status: true, response: daoResponse });
             } else {
-                res.json({ status: false, response: daoResponse });
+                res.json({ status: false, response: daoResponse });//todo use DTO
             }
         } catch (e) {
             res.status(500).json({ error: e.message });

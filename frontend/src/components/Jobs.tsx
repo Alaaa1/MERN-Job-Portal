@@ -20,7 +20,7 @@ export default function Jobs() {
     const [category, setCategory] = useState<string>();
 
     function handleChangingJobs(jobId: string): void {
-        setJobs(jobs.filter(job => job._id != jobId));
+        setJobs(jobs.filter(job => job._id !== jobId));
     }
 
     function handleChange(event: any) {
@@ -29,7 +29,7 @@ export default function Jobs() {
 
     function handleSearch(event: any) {
         event.preventDefault();
-        try {
+        try {//todo use debounce
             JobDataService.find(searchKeyWord).then(response => {
                 setJobs(response.data.response.jobs);
             });
@@ -72,8 +72,8 @@ export default function Jobs() {
                     <div style={{ display: "flex", gap: "3em" }}>
                         {(category) ?
                             (jobs.filter(job => job.category === category).map(job =>
-                                <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} handleChangingJobs={handleChangingJobs} />)) :
-                            (jobs?.map(job => <Job key={job._id} id={job._id} name={job.name} company={job.company} category={job.category} datePosted={job.datePosted} handleChangingJobs={handleChangingJobs} />))}
+                                <Job key={job._id} job={job} handleChangingJobs={handleChangingJobs} />)) :
+                            (jobs?.map(job => <Job key={job._id} job={job} handleChangingJobs={handleChangingJobs} />))}
                     </div>
                 </Col>
             </Container>

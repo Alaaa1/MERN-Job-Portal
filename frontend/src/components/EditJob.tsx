@@ -4,11 +4,11 @@ import Form from 'react-bootstrap/Form';
 import JobDataService from "../services/job";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UsersContext";
-import { LocationType, saveJobType } from "../types/types.users";
+import { JobsType, saveJobType } from "../types/types.users";
 
 export default function EditJob() {
     const { user, setUser } = useContext(UserContext);
-    const location: LocationType = useLocation().state;
+    const location: JobsType = useLocation().state;
     const navigate = useNavigate();
     const [job, setJob] = useState(location.name);
     const [company, setCompany] = useState(location.company);
@@ -27,17 +27,13 @@ export default function EditJob() {
     function saveJob(e: FormEvent): void {
         e.preventDefault();
         let data: saveJobType = {
-            _id: location.id,
+            _id: location._id,
             name: job,
             company,
             category,
             user_id: user._id
         }
-        try {
-            JobDataService.editJob(data).then(() => navigate("/"));
-        } catch (e) {
-            console.error(`Unable to edit job ${e}`);
-        }
+        JobDataService.editJob(data).then(() => navigate("/")).catch((e) => console.error(e));
     }
 
     return (

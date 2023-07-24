@@ -29,8 +29,8 @@ export default class UsersDAO {
     static async loginUser(email: string, password: string): Promise<IUsersDAOResponse | ErrorMessage> {
         try {
             const user = await User.findOne({ email }).exec();
-            if (!user) {
-                return { dbResponse: false };
+            if (!user) {//todo separate business logic
+                return { dbResponse: false };//todo return undefined
             }
             const auth = await bcrypt.compare(password, user.hashedPassword)
             if (!auth) {
