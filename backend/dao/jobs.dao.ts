@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { INewJob, ErrorMessage, INewJobInfo, IJobsDAOResponse, IJob } from "../types";
-import Job from "../models/Job";
-import User from "../models/User";
+import Job from "../db/models/JobModel";
+import User from "../db/models/UserModel";
 
 export default class JobsDAO {
     static async getJobs({ filters = null }: { filters: {} } = { filters: null }): Promise<IJobsDAOResponse | ErrorMessage> {
@@ -58,7 +58,7 @@ export default class JobsDAO {
         try {
             let job = await Job.findById(jobId).exec();
             let daoResponse: IJobsDAOResponse;
-            if (job.user_id == user_id) {//todo move business to controller
+            if (job.user_id == user_id) {//todo move business logic to service
                 job = await Job.findOneAndDelete({ _id: jobId }).exec();
                 let user = await User.findById(user_id).exec();
                 const index = user.jobs.indexOf(jobId);

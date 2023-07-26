@@ -1,19 +1,17 @@
 import { Request, Response } from "express";
-import JobsDAO from "../../dao/jobs.dao";
-import { IJobsDAOResponse, INewJobInfo, ErrorMessage, Filters, INewJob } from "../../types";
+import { IEditedJobInfo, Filters, INewJob } from "../../types";
 import { ObjectId } from "mongodb";
+import JobService from "../../services/jobService";
+const JobServiceInstance = new JobService();
 
 export default class JobsController {
     static async apiGetJobs(req: Request, res: Response): Promise<void> {
-        let filters: Filters = {};
-        if (req.query.name) {
-            filters.name = req.query.name as string; //todo use RequestHandler instead of cast as string
-        }
-        const daoResponse: IJobsDAOResponse | ErrorMessage = await JobsDAO.getJobs({ filters });
-        if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-            res.json({ status: true, response: daoResponse });
-        } else {
-            res.json({ status: false, response: daoResponse });
+        try {
+            const filters: Filters = req.body.filters;
+            const jobs = await JobServiceInstance.getJobs({ filters });
+            res.status(200).json({ jobs });
+        } catch (e) {
+            res.status(500).json({ error: e.message });
         }
     }
 
@@ -24,14 +22,10 @@ export default class JobsController {
                 datePosted: new Date(),
                 company: req.body.company,
                 category: req.body.category,
-                user_id: new ObjectId(req.body.user_id)
-            }//todo use transaction
-            const daoResponse: IJobsDAOResponse | ErrorMessage = await JobsDAO.addJob(newJob);
-            if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                res.json({ status: true, response: daoResponse });
-            } else {
-                res.json({ status: false, response: daoResponse });
-            }
+                user_id: new ObjectId(req.body.user_id)//todo: move creating the objectId to the DAL
+            } //todo use transaction in order to add job to user only after successfully creating job
+            const createdJob = await JobServiceInstance.createJob(newJob);
+            res.status(201).json({ createdJob });
         } catch (e) {
             res.status(500).json({ error: e.message })
         }
@@ -41,18 +35,13 @@ export default class JobsController {
         try {
             const jobId: ObjectId = req.body._id;
             const user_id: ObjectId = req.body.user_id;
-            const newJobInfo: INewJobInfo = {
+            const newJobInfo: IEditedJobInfo = {
                 name: req.body.name,
                 company: req.body.company,
                 category: req.body.category
             }
-            const daoResponse: IJobsDAOResponse | ErrorMessage = await JobsDAO.editJob(jobId, newJobInfo, user_id);
-            if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                res.json({ status: true, response: daoResponse });
-            }
-            else {
-                res.json({ status: false, response: daoResponse });
-            }
+            const editedJob = await JobServiceInstance.editJob(jobId, newJobInfo, user_id);
+            res.status(200).json({ editedJob });
         } catch (e) {
             res.status(500).json({ error: e.message })
         }
@@ -60,14 +49,10 @@ export default class JobsController {
 
     static async apiDeleteJob(req: Request, res: Response): Promise<void> {
         try {
-            const jobId: ObjectId = req.body._id;
+            const jobId: ObjectId = req.body._id;//todo: move databse related things to DAL
             const user_id: ObjectId = req.body.user_id;
-            const daoResponse: IJobsDAOResponse | ErrorMessage = await JobsDAO.deleteJob(jobId, user_id);
-            if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                res.json({ status: true, response: daoResponse });
-            } else {
-                res.json({ status: false, response: daoResponse });
-            }
+            const deletedJob = await JobServiceInstance.deleteJob(jobId, user_id);
+            res.status(200).json({ deletedJob });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }

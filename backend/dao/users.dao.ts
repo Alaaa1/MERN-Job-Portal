@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import createSecretToken from "../utils/SecretToken";
 import bcrypt from "bcrypt";
-import User from "../models/User";
+import User from "../db/models/UserModel";
 import { ErrorMessage, IUser, IUsersDAOResponse } from "../types";
 export default class UsersDAO {
     static async signupUser(username: string, email: string, password: string, role: string): Promise<IUsersDAOResponse | ErrorMessage> {

@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
-import UsersDAO from "../../dao/users.dao";
+import UserService from "../../services/userService";
+import { INewUserFormInfo } from "../../types";
+
+const UserServiceInstance = new UserService();
 
 //todo create user service, job service and move business logic to them
 //todo controllers are very light
@@ -8,16 +11,10 @@ import UsersDAO from "../../dao/users.dao";
 export default class UsersController {
     static async apiSignupUser(req: Request, res: Response): Promise<void> {
         try {
-            const { username, password, email, role } = req.body
-            const daoResponse = await UsersDAO.signupUser(username, email, password, role);
-            if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                res.cookie("token", daoResponse.token, {
-                    httpOnly: false,
-                });
-                res.json({ status: true, response: daoResponse });
-            } else {
-                res.json({ status: false, response: daoResponse });//todo use DTO
-            }
+            const { username, password, email, role } = req.body;
+            const newUser: INewUserFormInfo = { username, password, email, role };
+            const result = await UserServiceInstance.signupUser(newUser);
+            res.status(201).json({ result });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }
@@ -26,24 +23,8 @@ export default class UsersController {
     static async apiLoginUser(req: Request, res: Response): Promise<void> {
         try {
             const { email, password } = req.body;
-            if (!email || !password) {
-                res.json({ status: false, message: "Email and password are required" });
-            } else {
-                const daoResponse = await UsersDAO.loginUser(email, password);
-                if (!daoResponse) {
-                    res.json({ status: false, message: "Invalid email or password" });
-                } else {
-                    if ("dbResponse" in daoResponse && daoResponse.dbResponse) {
-                        res.cookie("token", daoResponse.token, {
-                            httpOnly: false,
-                        });
-                        res.json({ status: true, response: daoResponse });
-                    }
-                    else {
-                        res.json({ status: false, response: daoResponse });
-                    }
-                }
-            }
+            const result = await UserServiceInstance.loginUser(email, password);
+            res.status(200).json({ result });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }

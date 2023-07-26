@@ -36,8 +36,8 @@ export default function Signup() {
         e.preventDefault();
         try {
             const signupResponse: any = await handleSignupUser({ username, email, password, role });
-            if (signupResponse.status) {
-                setUser(signupResponse.data.response.user.username);
+            if (signupResponse.data.result) {
+                setUser(signupResponse.data.result.username);
                 navigate("/");
             }
         } catch (error) {

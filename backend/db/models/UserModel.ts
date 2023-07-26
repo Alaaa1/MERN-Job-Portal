@@ -1,4 +1,4 @@
-import { IUser } from './../types';
+import { IUser } from '../../types';
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema<IUser>({
@@ -24,5 +24,5 @@ const userSchema = new Schema<IUser>({
     }]
 })
 
-const User = model<IUser>("User", userSchema);
-export default User;
+const UserModel = model<IUser>("User", userSchema);
+export default UserModel;

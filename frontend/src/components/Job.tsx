@@ -17,7 +17,7 @@ export default function Job(props: JobPropsType) {
         try {
             console.log(props.job, user)
             JobDataService.deleteJob(props.job._id, user._id).then((res) => {
-                if (res.data.status) {
+                if (res.data.deletedJob) {
                     props.handleChangingJobs(props.job._id)
                     notify("Job Deleted successfully!")
                 }//todo use other http stats codes

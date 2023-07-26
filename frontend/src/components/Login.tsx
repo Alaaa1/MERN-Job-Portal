@@ -30,10 +30,9 @@ export default function Login() {
         e.preventDefault();
         try {
             const loginResponse: any = await handleUserLogin({ email, password });
-            if (loginResponse.data.status) {
-                setUser(loginResponse.data.response.user);
-                navigate("/");
-            }
+            console.log(loginResponse.data.result.username);
+            setUser(loginResponse.data.result.username);
+            navigate("/");
         } catch (error) {
             console.error(error);
         }

@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../models/User";
 import { Request, Response } from "express";
+import { User } from "../db/mongo/User";
+
+const UserServiceInstance = new User();
 
 dotenv.config();
 
@@ -17,7 +19,8 @@ export default class UserAuthentication {
                 console.log("error");
                 return res.json({ status: false });
             } else {
-                const user = await User.findById(data.id);
+                const user = await UserServiceInstance.findUserById(data.id);
+                console.log(user);
                 if (user) {
                     res.json({ status: true, user })
                 }

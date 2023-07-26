@@ -2,18 +2,31 @@ import { ObjectId } from "mongodb";
 import { Document } from "mongoose";
 
 export interface INewJob {
-    name: string,
-    datePosted: Date,
-    company: string,
-    category: string,
-    user_id: ObjectId
+    name: string;
+    datePosted: Date;
+    company: string;
+    category: string;
+    user_id: ObjectId;
 }
-export interface INewJobInfo {
+export interface IEditedJobInfo {
     name: string;
     company: string;
     category: string;
 }
+export interface INewUserFormInfo {
+    username: string;
+    email: string;
+    password: string;
+    role: string;//todo: specify "creator" or "seeker"
+}
 
+export interface INewUser {
+    _id: ObjectId;
+    username: string;
+    email: string;
+    hashedPassword: string;
+    role: string;//todo: specify "creator" or "seeker"
+}
 export interface ErrorMessage {
     error: Error;
 }

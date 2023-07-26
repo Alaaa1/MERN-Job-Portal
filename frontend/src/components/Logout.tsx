@@ -14,7 +14,7 @@ export default function Logout() {
     useEffect(() => {
         removeCookie("token");
         delay().then(() => { setUser(null); navigate("/login") });
-    }, [removeCookie, setUser, navigate]);
+    }, []);
 
     return (
         <p>Logging out...</p>

@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import NewJob from './NewJob';
 import { Nav } from 'react-bootstrap';
 import EditJob from './EditJob';
-import { useContext, useEffect } from 'react';
+import React, { ReactElement, useContext, useEffect } from 'react';
 import Login from './Login';
 import Signup from './Signup';
 import Logout from './Logout';
@@ -40,7 +40,7 @@ function App() {
       }
     }
     verifyCookies();
-  }, []);
+  }, [cookies.token, setUser, removeCookie]);
 
   if (user) {
     return (

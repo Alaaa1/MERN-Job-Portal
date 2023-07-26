@@ -11,7 +11,7 @@ export default function Jobs() {
     const { isLoading, isError, data, error } = useQuery({
         queryKey: ["jobs"],
         queryFn: () => JobDataService.getAll().then((res) => {
-            setJobs(res.data.response.jobs);
+            setJobs(res.data.jobs);
             return res;
         }).then(res => res)
     });
@@ -31,7 +31,7 @@ export default function Jobs() {
         event.preventDefault();
         try {//todo use debounce
             JobDataService.find(searchKeyWord).then(response => {
-                setJobs(response.data.response.jobs);
+                setJobs(response.data.jobs);
             });
         } catch (e) {
             console.error(`Unable to search ${e}`);

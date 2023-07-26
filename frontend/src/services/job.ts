@@ -8,7 +8,7 @@ class DataService {
         return http.get(`?name=${query}`);
     }
     authenticateUser(data: object) {
-        return http.post("", data, { withCredentials: true });
+        return http.post("/authenticate", data, { withCredentials: true });
     }
     createJob(data: Object) {
         return http.post("/newJob", data);
