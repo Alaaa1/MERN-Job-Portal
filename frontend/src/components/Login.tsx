@@ -31,8 +31,6 @@ export default function Login() {
         try {
             const loginResponse: any = await handleUserLogin({ email, password });
             setUser(loginResponse.data.user);
-            console.log(loginResponse.data.user);
-            console.log(user);
             navigate("/");
         } catch (error) {
             console.error(error);

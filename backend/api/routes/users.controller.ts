@@ -11,7 +11,7 @@ const UserServiceInstance = new UserService();
 export default class UsersController {
     static async apiSignupUser(req: Request, res: Response): Promise<void> {
         try {
-            const { username, password, email, role } = req.body;
+            const { username, email, password, role } = req.body;
             const newUser: INewUserFormInfo = { username, password, email, role };
             const result = await UserServiceInstance.signupUser(newUser);
             res.cookie("token", result.token, {
@@ -20,6 +20,7 @@ export default class UsersController {
             res.status(201).json({ user: result.user });
         } catch (e) {
             res.status(500).json({ error: e.message });
+            console.error(e);
         }
     }
 

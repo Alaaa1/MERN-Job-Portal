@@ -28,36 +28,36 @@ export default class UserService {
 
     async signupUser(newUser: INewUserFormInfo) {
         try {
-            let token;
             const existingUser = await UserInstance.findUserByEmail(newUser.email);
-            if (!existingUser) {
-                const _id = new ObjectId();
+            let token;
+            console.log(existingUser);
+            if (existingUser == null) {
+                const _id = new ObjectId();//todo: move db type to DAL
                 const hashedPassword = await bcrypt.hash(newUser.password, 12);
                 const userObject = {
                     _id, username: newUser.username, email: newUser.email, hashedPassword, role: newUser.role
                 };
                 const user = await UserInstance.createUser(userObject);
-                createSecretToken(_id);
+                token = createSecretToken(_id);
                 return { user, token };
             }
         } catch (e) {
-            return e;
+            console.error(e);
         }
     }
 
     async loginUser(email: string, password: string) {
         try {
-            let token;
             const user = await UserInstance.findUserByEmail(email);
             if (user) {
                 const auth = await bcrypt.compare(password, user.hashedPassword);
                 if (auth) {
-                    token = createSecretToken(user._id);
+                    const token = createSecretToken(user._id);
                     return { user, token };
                 }
             }
         } catch (e) {
-            return e;
+            console.error(e);
         }
     }
 } 
