@@ -29,9 +29,10 @@ export default function Login() {
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         try {
-            console.log({ email, password });
             const loginResponse: any = await handleUserLogin({ email, password });
-            setUser(loginResponse.data.user.username);
+            setUser(loginResponse.data.user);
+            console.log(loginResponse.data.user);
+            console.log(user);
             navigate("/");
         } catch (error) {
             console.error(error);

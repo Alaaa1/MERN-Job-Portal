@@ -24,8 +24,6 @@ function App() {
 
   useEffect(() => {
     const verifyCookies = async () => {
-      console.log("cookies", cookies);
-      console.log("user", user);
       if (!cookies.token) {
         setUser(null);
       }
