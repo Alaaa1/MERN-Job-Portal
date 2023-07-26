@@ -9,7 +9,7 @@ export default function Logout() {
     const navigate = useNavigate();
 
     async function delay() {
-        await new Promise((resolve) => setTimeout(() => resolve(''), 2000))
+        await new Promise((resolve) => setTimeout(() => resolve(''), 500))
     }
     useEffect(() => {
         removeCookie("token");

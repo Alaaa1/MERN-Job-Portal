@@ -11,7 +11,7 @@ class DataService {
         return http.post("/authenticate", data, { withCredentials: true });
     }
     createJob(data: Object) {
-        return http.post("/newJob", data);
+        return http.post("/", data);
     }
     editJob(data: object) {
         return http.put("", data)

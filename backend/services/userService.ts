@@ -28,16 +28,17 @@ export default class UserService {
 
     async signupUser(newUser: INewUserFormInfo) {
         try {
+            let token;
             const existingUser = await UserInstance.findUserByEmail(newUser.email);
             if (!existingUser) {
                 const _id = new ObjectId();
                 const hashedPassword = await bcrypt.hash(newUser.password, 12);
-                const user = {
+                const userObject = {
                     _id, username: newUser.username, email: newUser.email, hashedPassword, role: newUser.role
                 };
-                const response = await UserInstance.createUser(user);
+                const user = await UserInstance.createUser(userObject);
                 createSecretToken(_id);
-                return response;
+                return { user, token };
             }
         } catch (e) {
             return e;
@@ -46,14 +47,15 @@ export default class UserService {
 
     async loginUser(email: string, password: string) {
         try {
+            let token;
             const user = await UserInstance.findUserByEmail(email);
             if (user) {
                 const auth = await bcrypt.compare(password, user.hashedPassword);
                 if (auth) {
-                    createSecretToken(user._id);
+                    token = createSecretToken(user._id);
+                    return { user, token };
                 }
             }
-            return user;
         } catch (e) {
             return e;
         }

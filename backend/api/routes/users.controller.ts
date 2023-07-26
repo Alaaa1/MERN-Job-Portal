@@ -14,7 +14,10 @@ export default class UsersController {
             const { username, password, email, role } = req.body;
             const newUser: INewUserFormInfo = { username, password, email, role };
             const result = await UserServiceInstance.signupUser(newUser);
-            res.status(201).json({ result });
+            res.cookie("token", result.token, {
+                httpOnly: false,
+            });
+            res.status(201).json({ user: result.user });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }
@@ -24,7 +27,10 @@ export default class UsersController {
         try {
             const { email, password } = req.body;
             const result = await UserServiceInstance.loginUser(email, password);
-            res.status(200).json({ result });
+            res.cookie("token", result.token, {
+                httpOnly: false,
+            });
+            res.status(200).json({ user: result.user });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }
