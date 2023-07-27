@@ -50,6 +50,11 @@ export interface IUser extends Document {
     jobs?: ObjectId[];
 }
 
+export interface IHashedUser extends Document {
+    userId: ObjectId;
+    hashedPassword: string;
+}
+
 export interface IControllerAddJob {
     status: string;
     dbResponse: boolean;

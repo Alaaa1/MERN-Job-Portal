@@ -5,12 +5,12 @@ import { ObjectId } from "mongodb";
 export class Job {
 
     async getJobs({ filters }) {
-        const result = await JobModel.find(filters).exec()//todo use lean() instead of exec();
+        const result = await JobModel.find(filters).lean()//todo use lean() instead of exec();
         return result;
     }
 
     async findJobById(jobId: ObjectId) {
-        const result = await JobModel.findById(jobId).exec();
+        const result = await JobModel.findById(jobId).lean();
         return result;
     }
 

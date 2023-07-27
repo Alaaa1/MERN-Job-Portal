@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { Job } from "../db/mongo/Job";
 import { Filters, INewJob, IEditedJobInfo } from "../types";
 import UserService from "./userService";
+
 const JobInstance = new Job();
 const UserServiceInstance = new UserService();
 

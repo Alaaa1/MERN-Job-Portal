@@ -16,4 +16,4 @@ mongoose.connect(process.env.JOBS_DB_URI)
         app.listen(port, () => {
             console.log(`listening on port ${port}`)
         })
-    })
+    });
