@@ -7,10 +7,14 @@ const JobServiceInstance = new JobService();
 export default class JobsController {
     static async apiGetJobs(req: Request, res: Response): Promise<void> {
         try {
-            const filters: Filters = req.body.filters;
+            let filters: Filters = {};
+            if (req.query.name) {
+                filters.name = req.query.name as string;//move logic to service?
+            }
             const jobs = await JobServiceInstance.getJobs({ filters });
             res.status(200).json({ jobs });
         } catch (e) {
+            console.error(e);
             res.status(500).json({ error: e.message });
         }
     }
