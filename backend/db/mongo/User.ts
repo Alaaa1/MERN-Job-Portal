@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import UserModel from "../models/UserModel";
-import { INewUser } from "../../types";
+import { INewUser } from "../../src/shared/types";
 
 export class User {
 

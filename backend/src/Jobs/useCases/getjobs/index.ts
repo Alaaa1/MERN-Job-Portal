@@ -1,6 +1,6 @@
 import JobsRepository from "../../db/repositories/JobsRepository";
-import GetJobsEndpoint from "./GetJobs.endpoint";
-import GetJobsUsecase from "./GetJobs.usecase";
+import GetJobsEndpoint from "./getJobs.endpoint";
+import GetJobsUsecase from "./getJobs.usecase";
 
 
 const jobsRepository = new JobsRepository();

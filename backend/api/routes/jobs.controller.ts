@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IEditedJobInfo, Filters, INewJob } from "../../types";
+import { IEditedJobInfo, Filters, INewJob } from "../../src/shared/types";
 import { ObjectId } from "mongodb";
 import JobService from "../../services/jobService";
 const JobServiceInstance = new JobService();
@@ -53,7 +53,7 @@ export default class JobsController {
 
     static async apiDeleteJob(req: Request, res: Response): Promise<void> {
         try {
-            const jobId: ObjectId = req.body._id;//todo: move databse related things to DAL
+            const jobId: ObjectId = req.body._id;//todo: move databse related objectID to DAL
             const user_id: ObjectId = req.body.user_id;
             const deletedJob = await JobServiceInstance.deleteJob(jobId, user_id);
             res.status(200).json({ deletedJob });

@@ -1,9 +1,11 @@
 import JobsRepository from "../../db/repositories/JobsRepository";
 
 export default class GetJobsUsecase {
+
     jobsRepository: JobsRepository;
-    constructor(jobsRepository: JobsRepository) {
-        this.jobsRepository = jobsRepository;
+
+    constructor(repo: JobsRepository) {
+        this.jobsRepository = repo;
     };
 
     async execute(): Promise<object[]> {

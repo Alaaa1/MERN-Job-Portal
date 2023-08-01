@@ -1,13 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Document } from "mongoose";
 
-export interface INewJob {
-    name: string;
-    datePosted: Date;
-    company: string;
-    category: string;
-    user_id: ObjectId;
-}
 export interface IEditedJobInfo {
     name: string;
     company: string;
@@ -40,14 +33,6 @@ export interface IJob extends Document {
     company: string;
     category: string;
     user_id: ObjectId;
-}
-
-export interface IUser extends Document {
-    username: string;
-    hashedPassword: string;
-    email: string;
-    role: string;
-    jobs?: ObjectId[];
 }
 
 export interface IHashedUser extends Document {

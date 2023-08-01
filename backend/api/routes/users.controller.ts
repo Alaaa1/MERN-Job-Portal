@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
 import UserService from "../../services/userService";
-import { INewUserFormInfo } from "../../types";
+import { INewUserFormInfo } from "../../src/shared/types";
 
 const UserServiceInstance = new UserService();
-
-//todo create user service, job service and move business logic to them
-//todo controllers are very light
-//todo DOA is usually created for custom queries
 
 export default class UsersController {
     static async apiSignupUser(req: Request, res: Response): Promise<void> {

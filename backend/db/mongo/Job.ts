@@ -1,11 +1,11 @@
 import JobModel from "../models/JobModel";
-import { IJob, INewJob, IEditedJobInfo } from "../../types";
+import { IJob, INewJob, IEditedJobInfo } from "../../src/shared/types";
 import { ObjectId } from "mongodb";
 
 export class Job {
 
     async getJobs({ filters }) {
-        const result = await JobModel.find(filters).lean()//todo use lean() instead of exec();
+        const result = await JobModel.find(filters).lean()
         return result;
     }
 

@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { User } from "../db/mongo/User";
-import { INewUserFormInfo } from "../types";
+import { INewUserFormInfo } from "../src/shared/types";
 import bcrypt from "bcrypt";
 import createSecretToken from "../utils/SecretToken";
 

@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
-import getJobsUsecase from "./GetJobs.usecase";
+import getJobsUsecase from "./getJobs.usecase";
 
 export default class GetJobsEndpoint {
-    private useCase: getJobsUsecase;
+    useCase: getJobsUsecase;
+
     constructor(getJobsUsecase: getJobsUsecase) {
         this.useCase = getJobsUsecase;
+        console.log(this.useCase);
     }
+
     async execute(req: Request, res: Response) {
         try {
             const jobs = await this.useCase.execute();
