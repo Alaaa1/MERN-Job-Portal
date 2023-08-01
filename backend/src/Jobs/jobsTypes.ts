@@ -18,3 +18,9 @@ export interface INewJob {
 export interface IRepoNewJob extends INewJob {
     datePosted: Date;
 }
+
+export interface IEditedJobInfo {
+    name: string;
+    company: string;
+    category: string;
+}
