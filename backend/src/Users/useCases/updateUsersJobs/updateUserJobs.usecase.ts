@@ -1,4 +1,4 @@
-import { UserRepository } from "../db/repos/usersRepository";
+import { UserRepository } from "../../db/repos/usersRepository";
 
 export class UpdateUserJobs {
     userRepository: UserRepository;

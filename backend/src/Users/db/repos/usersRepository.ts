@@ -1,6 +1,6 @@
 import UserModel from "../models/UserModel";
 
-export class UserRepository {
+export class UsersRepository {
 
     async findUserById(userId: string) {
         const result = await UserModel.findById(userId).lean();

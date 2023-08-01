@@ -16,4 +16,14 @@ export default class JobsRepository {
         const result = await JobModel.create(jobToCreate);
         return result;
     }
+
+    async getJobById(jobId: string) {
+        const result = await JobModel.findById(jobId);
+        return result;
+    }
+
+    async deleteJob(jobId: string) {
+        const result = await JobModel.deleteOne({ _id: jobId });
+        return result;
+    }
 }

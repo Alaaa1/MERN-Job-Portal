@@ -1,11 +1,11 @@
-import { UserRepository } from "../../../Users/db/repos/usersRepository";
-import { UpdateUserJobs } from "../../../Users/useCases/updateUserJobs.usecase";
+import { UsersRepository } from "../../../Users/db/repos/usersRepository";
+import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
 import JobsRepository from "../../db/repositories/JobsRepository";
 import { CreateJob } from "./createJob.usecase";
 import CreateJobEndpoint from "./createJob.endpoint";
 
 const jobsRepository = new JobsRepository();
-const usersRepository = new UserRepository();
+const usersRepository = new UsersRepository();
 
 const updateUserJobs = new UpdateUserJobs(usersRepository);
 

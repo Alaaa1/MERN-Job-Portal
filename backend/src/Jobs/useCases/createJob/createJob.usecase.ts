@@ -1,15 +1,15 @@
-import { UserRepository } from "../../../Users/db/repos/usersRepository";
-import { UpdateUserJobs } from "../../../Users/useCases/updateUserJobs.usecase";
+import { UsersRepository } from "../../../Users/db/repos/usersRepository";
+import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
 import JobsRepository from "../../db/repositories/JobsRepository";
 import { INewJob } from "../../jobsTypes";
 
 export class CreateJob {
     jobsRepository: JobsRepository;
-    usersRepository: UserRepository;
+    usersRepository: UsersRepository;
     updateUserJobs: UpdateUserJobs;
 
 
-    constructor(jobsRepo: JobsRepository, usersRepo: UserRepository, updateUserJobs: UpdateUserJobs) {
+    constructor(jobsRepo: JobsRepository, usersRepo: UsersRepository, updateUserJobs: UpdateUserJobs) {
         this.jobsRepository = jobsRepo;
         this.usersRepository = usersRepo;
         this.updateUserJobs = updateUserJobs;
