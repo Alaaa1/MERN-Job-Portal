@@ -4,7 +4,7 @@ import createjobEndpoint from "../Jobs/useCases/createJob";
 
 const router: Router = express.Router();
 
-router.route("/").get(getjobsEndpoint.execute)
-    .post(createjobEndpoint.execute);
+router.route("/").get((res, req) => getjobsEndpoint.execute(res, req))
+    .post((req, res) => createjobEndpoint.execute(req, res));
 
 export default router;

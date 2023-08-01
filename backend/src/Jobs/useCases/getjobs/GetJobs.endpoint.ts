@@ -6,7 +6,7 @@ export default class GetJobsEndpoint {
 
     constructor(getJobsUsecase: getJobsUsecase) {
         this.useCase = getJobsUsecase;
-        console.log(this.useCase);
+        console.log("constructor called", this.useCase);
     }
 
     async execute(req: Request, res: Response) {
