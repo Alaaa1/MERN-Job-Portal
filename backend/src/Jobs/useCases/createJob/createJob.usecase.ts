@@ -1,6 +1,7 @@
 import { UsersRepository } from "../../../Users/db/repos/usersRepository";
 import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
 import JobsRepository from "../../db/repositories/JobsRepository";
+import { JobEntity } from "../../entities/jobEntity";
 import { INewJob } from "../../jobsTypes";
 
 export class CreateJob {
@@ -16,13 +17,14 @@ export class CreateJob {
     };
 
     async execute(newJob: INewJob) {
+        const job = JobEntity.create(newJob);
         try {
-            const createdJob = await this.jobsRepository.createJob(newJob);
-            let user = await this.usersRepository.findUserById((newJob.user_id).toString());
+            const createdJob = await this.jobsRepository.createJob(job);
+            let user = await this.usersRepository.findUserById(job.user_id.toString());
             if (user && user.jobs) {
-                let user_jobs: object[] | undefined = user.jobs;
+                let user_jobs: object[] = user.jobs;
                 user_jobs.push(createdJob._id);
-                await this.updateUserJobs.execute(newJob.user_id.toString(), user_jobs);
+                await this.updateUserJobs.execute(job.user_id.toString(), user_jobs);
                 return createdJob;
             }
         } catch (e) {

@@ -12,7 +12,7 @@ export interface INewJob {
     name: string;
     company: string;
     category: string;
-    user_id: ObjectId;
+    user_id: string;
 }
 
 export interface IRepoNewJob extends INewJob {

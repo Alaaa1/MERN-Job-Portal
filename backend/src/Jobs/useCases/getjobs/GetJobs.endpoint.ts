@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import getJobsUsecase from "./GetJobs.usecase";
+import getJobsUsecase from "./getJobs.usecase";
 
 export default class GetJobsEndpoint {
     useCase: getJobsUsecase;
