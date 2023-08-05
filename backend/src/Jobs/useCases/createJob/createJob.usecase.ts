@@ -1,4 +1,4 @@
-import { UsersRepository } from "../../../Users/db/repos/usersRepository";
+import { UsersRepository } from "../../../Users/lib/db/repos/usersRepository";
 import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
 import JobsRepository from "../../lib/db/repositories/JobsRepository";
 import { JobEntity } from "../../lib/entities/jobEntity";
@@ -22,7 +22,7 @@ export class CreateJob {
             const createdJob = await this.jobsRepository.createJob(job);
             let user = await this.usersRepository.findUserById(job.user_id.toString());
             if (user && user.jobs) {
-                let user_jobs: object[] = user.jobs;
+                let user_jobs: string[] = user.jobs;
                 user_jobs.push(createdJob._id);
                 await this.updateUserJobs.execute(job.user_id.toString(), user_jobs);
                 return createdJob;

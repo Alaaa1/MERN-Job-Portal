@@ -1,13 +1,5 @@
 import { ObjectId } from "mongodb";
 import { Document } from "mongoose";
-
-export interface INewUserFormInfo {
-    username: string;
-    email: string;
-    password: string;
-    role: string;//todo: specify "creator" or "seeker"
-}
-
 export interface INewUser {
     _id: ObjectId;
     username: string;

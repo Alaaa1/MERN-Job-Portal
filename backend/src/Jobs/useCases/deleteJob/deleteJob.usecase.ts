@@ -1,14 +1,14 @@
 import { UpdateUserJobs } from './../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase';
-import { GetUserById } from "../../../Users/useCases/getUserById/getUserById.usecase";
+import { GetUserByIdUsecase } from "../../../Users/useCases/getUserById/getUserById.usecase";
 import JobsRepository from "../../lib/db/repositories/JobsRepository";
 
 export class DeleteJob {
 
     jobsRepository: JobsRepository;
-    getUserByIdUseCase: GetUserById;
+    getUserByIdUseCase: GetUserByIdUsecase;
     updateUserJobsUsecase: UpdateUserJobs;
 
-    constructor(jobsRepo: JobsRepository, getUserByIdUsecase: GetUserById, updateUserJobsUsecase: UpdateUserJobs) {
+    constructor(jobsRepo: JobsRepository, getUserByIdUsecase: GetUserByIdUsecase, updateUserJobsUsecase: UpdateUserJobs) {
         this.jobsRepository = jobsRepo;
         this.getUserByIdUseCase = getUserByIdUsecase;
         this.updateUserJobsUsecase = updateUserJobsUsecase;

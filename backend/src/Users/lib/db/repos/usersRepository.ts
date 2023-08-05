@@ -17,8 +17,10 @@ export class UsersRepository {
         return this.userMappers.toDomain({ id, username, email, hashedPassword, jobs, role });
     }
 
-    async updateUserJobs(userId: string, newJobs: object[]) {
-        const result = await UserModel.updateOne({ _id: userId }, { jobs: newJobs }).exec();
-        return result;
+    async updateUserJobs(userId: string, newJobs: string[]) {
+        const result = await UserModel.findOneAndUpdate({ _id: userId }, { jobs: newJobs }).exec();
+        const { username, email, hashedPassword, jobs, role } = result;
+        const id = userId;
+        return this.userMappers.toDomain({ id, username, email, hashedPassword, jobs, role });
     }
 }

@@ -15,3 +15,10 @@ export interface IToDomainProps {
     email: string;
     role: string;
 }
+
+export interface INewUserFormInfo {
+    username: string;
+    email: string;
+    password: string;
+    role: string;//todo: specify "creator" or "seeker"
+}
