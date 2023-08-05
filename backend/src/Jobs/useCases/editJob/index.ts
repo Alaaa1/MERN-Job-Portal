@@ -1,5 +1,5 @@
 import { EditJobUseCase } from './editJob.usecase';
-import JobsRepository from "../../db/repositories/JobsRepository";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
 import { EditJobEndpoint } from './editJob.endpoint';
 
 

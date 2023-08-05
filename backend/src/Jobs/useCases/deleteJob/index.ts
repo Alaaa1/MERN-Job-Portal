@@ -1,7 +1,7 @@
 import { UsersRepository } from "../../../Users/db/repos/usersRepository";
 import { GetUserById } from "../../../Users/useCases/getUserById/getUserById.usecase";
 import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
-import JobsRepository from "../../db/repositories/JobsRepository";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
 import { DeleteJobEndpoint } from "./deleteJob.endpoint";
 import { DeleteJob } from "./deleteJob.usecase";
 

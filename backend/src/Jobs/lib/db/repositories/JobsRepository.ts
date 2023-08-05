@@ -1,4 +1,4 @@
-import { IEditedJobInfo, INewJob, IRepoNewJob } from "../../jobsTypes";
+import { IEditedJobInfo, IJob, INewJob, IRepoNewJob } from "../../../jobsTypes";
 import JobModel from "../models/JobModel";
 
 export default class JobsRepository {
@@ -18,7 +18,7 @@ export default class JobsRepository {
     }
 
     async getJobById(jobId: string) {
-        const result = await JobModel.findById(jobId).lean();
+        const result: IJob = await JobModel.findById(jobId).lean();
         return result;
     }
 

@@ -1,7 +1,7 @@
 import { UsersRepository } from "../../../Users/db/repos/usersRepository";
 import { UpdateUserJobs } from "../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase";
-import JobsRepository from "../../db/repositories/JobsRepository";
-import { JobEntity } from "../../entities/jobEntity";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
+import { JobEntity } from "../../lib/entities/jobEntity";
 import { INewJob } from "../../jobsTypes";
 
 export class CreateJob {
@@ -27,6 +27,7 @@ export class CreateJob {
                 await this.updateUserJobs.execute(job.user_id.toString(), user_jobs);
                 return createdJob;
             }
+            return { message: "user not found" };
         } catch (e) {
             console.error(`Job Service: Unable to create a job ${e}`);
             return e;

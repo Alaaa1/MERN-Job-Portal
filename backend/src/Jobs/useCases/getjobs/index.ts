@@ -1,4 +1,4 @@
-import JobsRepository from "../../db/repositories/JobsRepository";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
 import GetJobsEndpoint from "./getJobs.endpoint";
 import GetJobsUsecase from "./getJobs.usecase";
 

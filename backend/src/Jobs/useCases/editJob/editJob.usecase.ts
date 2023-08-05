@@ -1,4 +1,4 @@
-import JobsRepository from "../../db/repositories/JobsRepository";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
 import { IEditedJobInfo } from "../../jobsTypes";
 
 export class EditJobUseCase {

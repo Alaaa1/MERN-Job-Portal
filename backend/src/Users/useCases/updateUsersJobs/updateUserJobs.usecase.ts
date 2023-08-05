@@ -1,9 +1,9 @@
-import { UserRepository } from "../../db/repos/usersRepository";
+import { UsersRepository } from "../../lib/db/repos/usersRepository";
 
 export class UpdateUserJobs {
-    userRepository: UserRepository;
+    userRepository: UsersRepository;
 
-    constructor(userRepo: UserRepository) {
+    constructor(userRepo: UsersRepository) {
         this.userRepository = userRepo;
     }
 

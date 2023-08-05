@@ -1,4 +1,4 @@
-import { INewJob } from "../jobsTypes";
+import { INewJob } from "../../jobsTypes";
 export class JobEntity {
     readonly id: string;
     readonly name: string;
@@ -17,5 +17,4 @@ export class JobEntity {
     public static create(props: INewJob) {
         return new JobEntity(props);
     }
-
 }

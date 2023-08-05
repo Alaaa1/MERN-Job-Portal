@@ -1,6 +1,6 @@
 import { UpdateUserJobs } from './../../../Users/useCases/updateUsersJobs/updateUserJobs.usecase';
 import { GetUserById } from "../../../Users/useCases/getUserById/getUserById.usecase";
-import JobsRepository from "../../db/repositories/JobsRepository";
+import JobsRepository from "../../lib/db/repositories/JobsRepository";
 
 export class DeleteJob {
 

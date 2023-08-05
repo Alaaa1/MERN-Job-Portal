@@ -8,7 +8,7 @@ import {
 import { JobsType } from "../types/types.users";
 
 export default function Jobs() {
-    const { isLoading, isError, data, error } = useQuery({
+    const { isLoading, isError } = useQuery({
         queryKey: ["jobs"],
         queryFn: () => JobDataService.getAll().then((res) => {
             setJobs(res.data.jobs);
